@@ -8,7 +8,7 @@
 import SwiftUI
 
 @main
-struct RungerApp: App {
+struct RungerApp: App {    
     var body: some Scene {
         WindowGroup {
             ContentView()
