@@ -14,6 +14,8 @@
 		6659D9A42BC871D40004FC61 /* RungerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6659D9A32BC871D40004FC61 /* RungerTests.swift */; };
 		6659D9AE2BC871D40004FC61 /* RungerUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6659D9AD2BC871D40004FC61 /* RungerUITests.swift */; };
 		6659D9B02BC871D40004FC61 /* RungerUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6659D9AF2BC871D40004FC61 /* RungerUITestsLaunchTests.swift */; };
+		666474772BD551F900303055 /* BottomSheet in Frameworks */ = {isa = PBXBuildFile; productRef = 666474762BD551F900303055 /* BottomSheet */; };
+		666474792BD552D900303055 /* BottomSheetViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 666474782BD552D900303055 /* BottomSheetViewModel.swift */; };
 		66DF60BC2BD0C19C003628B0 /* DataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 66DF60BA2BD0C19C003628B0 /* DataModel.xcdatamodeld */; };
 		66DF60BE2BD0C405003628B0 /* StartRunView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66DF60BD2BD0C405003628B0 /* StartRunView.swift */; };
 		66DF60C02BD0C416003628B0 /* RunView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66DF60BF2BD0C416003628B0 /* RunView.swift */; };
@@ -49,6 +51,7 @@
 		6659D9A92BC871D40004FC61 /* RungerUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RungerUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		6659D9AD2BC871D40004FC61 /* RungerUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RungerUITests.swift; sourceTree = "<group>"; };
 		6659D9AF2BC871D40004FC61 /* RungerUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RungerUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		666474782BD552D900303055 /* BottomSheetViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomSheetViewModel.swift; sourceTree = "<group>"; };
 		66DF60BB2BD0C19C003628B0 /* DataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = DataModel.xcdatamodel; sourceTree = "<group>"; };
 		66DF60BD2BD0C405003628B0 /* StartRunView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartRunView.swift; sourceTree = "<group>"; };
 		66DF60BF2BD0C416003628B0 /* RunView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RunView.swift; sourceTree = "<group>"; };
@@ -61,6 +64,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				666474772BD551F900303055 /* BottomSheet in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -162,6 +166,7 @@
 			children = (
 				66DF60C22BD0C454003628B0 /* RunViewModel.swift */,
 				66DF60C42BD0C546003628B0 /* PersistenceController.swift */,
+				666474782BD552D900303055 /* BottomSheetViewModel.swift */,
 			);
 			path = "View Models";
 			sourceTree = "<group>";
@@ -182,6 +187,9 @@
 			dependencies = (
 			);
 			name = Runger;
+			packageProductDependencies = (
+				666474762BD551F900303055 /* BottomSheet */,
+			);
 			productName = Runger;
 			productReference = 6659D98F2BC871D30004FC61 /* Runger.app */;
 			productType = "com.apple.product-type.application";
@@ -254,6 +262,9 @@
 				Base,
 			);
 			mainGroup = 6659D9862BC871D20004FC61;
+			packageReferences = (
+				666474752BD5504300303055 /* XCRemoteSwiftPackageReference "BottomSheet" */,
+			);
 			productRefGroup = 6659D9902BC871D30004FC61 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -303,6 +314,7 @@
 				66DF60BC2BD0C19C003628B0 /* DataModel.xcdatamodeld in Sources */,
 				6659D9932BC871D30004FC61 /* RungerApp.swift in Sources */,
 				66DF60BE2BD0C405003628B0 /* StartRunView.swift in Sources */,
+				666474792BD552D900303055 /* BottomSheetViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -469,6 +481,10 @@
 				DEVELOPMENT_TEAM = 29VU26RVDN;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_LSApplicationCategoryType = "";
+				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "This app uses your location to track your runs";
+				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = "This app uses your location to track your runs";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "This app uses your location to track your runs";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -498,6 +514,10 @@
 				DEVELOPMENT_TEAM = 29VU26RVDN;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_LSApplicationCategoryType = "";
+				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "This app uses your location to track your runs";
+				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = "This app uses your location to track your runs";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "This app uses your location to track your runs";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -632,6 +652,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		666474752BD5504300303055 /* XCRemoteSwiftPackageReference "BottomSheet" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/joomcode/BottomSheet";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		666474762BD551F900303055 /* BottomSheet */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 666474752BD5504300303055 /* XCRemoteSwiftPackageReference "BottomSheet" */;
+			productName = BottomSheet;
+		};
+/* End XCSwiftPackageProductDependency section */
 
 /* Begin XCVersionGroup section */
 		66DF60BA2BD0C19C003628B0 /* DataModel.xcdatamodeld */ = {

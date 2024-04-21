@@ -6,10 +6,21 @@
 //
 
 import SwiftUI
+import MapKit
 
 enum RunMode: String {
     case onTheFly
     case preset
+}
+
+enum RunType: String {
+    case time
+    case distance
+}
+
+struct PresetInterval {
+    let type: RunType
+    let value: Double
 }
 
 struct StartRunView: View {
@@ -20,26 +31,246 @@ struct StartRunView: View {
     @State var selectedMode: RunMode = .onTheFly
     @State private var distance: Double = 0
     @State private var time: Double = 0
+    var presetViewModel = PresetViewModel()
             
     var body: some View {
         if (isStarted) {
             RunView(runViewModel: runViewModel)
         } else {
-            Text("Hello World")
-            VStack {
-                Button("Start Run") {
-                    runViewModel.isRunning = true
-                    isStarted = true
-                }
-                
-                Picker("Mode", selection: $selectedMode) {
-                    Text("On the Fly").tag(RunMode.onTheFly)
-                    Text("Preset").tag(RunMode.preset)
+            GeometryReader { geometry in
+                ZStack {
+                    Map(position: $runViewModel.position)
+                        .edgesIgnoringSafeArea(.all)
+                    
+                    Color.black.opacity(0.25)
+                        .edgesIgnoringSafeArea(.all)
+                        .transition(.opacity)
+                    
+                    VStack {
+                        Text("Start Run")
+                            .font(.headline)
+                            .foregroundStyle(.black)
+                            .multilineTextAlignment(.center)
+                            .frame(minWidth: /*@START_MENU_TOKEN@*/0/*@END_MENU_TOKEN@*/, maxWidth: .infinity)
+                            .padding()
+//                        Spacer()
+                        
+                        VStack {
+                            Text("Start Run")
+                                .font(.headline)
+                                .padding()
+                            
+                            Picker("Mode", selection: $selectedMode) {
+                                Text("On-the-Fly").tag(RunMode.onTheFly)
+                                Text("Preset").tag(RunMode.preset)
+                            }
+                            .pickerStyle(SegmentedPickerStyle())
+                            .padding()
+                            
+                            if selectedMode == .onTheFly {
+                                onTheFlyView()
+                            } else {
+                                presetView(presetViewModel: presetViewModel)
+                            }
+                                                                
+                        }.padding()
+                        .padding(.horizontal)
+                        .background(Color.white.opacity(0.8).cornerRadius(15))
+                        .frame(width: geometry.size.width * 0.9) // Set width relative to screen size
+//                        .padding(.vertical, geometry.size.height / 2 - getDynamicVStackHeight() / 2) // Adjust vertical padding dynamically
+                        
+//                        ZStack {
+//                            Rectangle()
+//                                .foregroundColor(.white)
+//                                .opacity(0.8)
+//                                .cornerRadius(15)
+//                                .padding(.horizontal)
+//                            //                            .padding(.vertical, 150)
+//                            
+//                            GeometryReader { geometry in
+//                                VStack {
+//                                    Picker("Mode", selection: $selectedMode) {
+//                                        Text("On-the-Fly").tag(RunMode.onTheFly)
+//                                        Text("Preset").tag(RunMode.preset)
+//                                    }
+//                                    .pickerStyle(SegmentedPickerStyle())
+//                                    .padding(.horizontal, 40)
+//                                    .padding(.vertical)
+//                                    
+//                                    if selectedMode == .onTheFly {
+//                                        onTheFlyView()
+//                                    } else {
+//                                        presetView(presetViewModel: presetViewModel)
+//                                    }
+//                                }
+//                                .frame(width: geometry.size.width, alignment: .top) // Aligns the VStack to the top
+//                            }
+//                            
+//                            //                        VStack {
+//                            //                            Picker("Mode", selection: $selectedMode) {
+//                            //                                Text("On-the-Fly").tag(RunMode.onTheFly)
+//                            //                                Text("Preset").tag(RunMode.preset)
+//                            //                            }
+//                            //                            .pickerStyle(SegmentedPickerStyle())
+//                            //                            .padding(.horizontal, 40)
+//                            //                            .padding(.vertical)
+//                            //
+//                            //                            if selectedMode == .onTheFly {
+//                            //                                onTheFlyView()
+//                            //                            } else {
+//                            //                                presetView(presetViewModel: presetViewModel)
+//                            //                            }
+//                            //                        }
+//                        }
+//                        
+//                        
+//                        Spacer()
+                        Button("Start Run") {
+                            runViewModel.isRunning = true
+                            isStarted = true
+                        }
+                        .foregroundColor(.white)
+                        .frame(minWidth: 0, maxWidth: 150)
+                        .padding()
+                        .background(Color.blue)
+                        .cornerRadius(15)
+                        .padding(.horizontal)
+                    }
                 }
             }
         }
+        
+    }
+    private func getDynamicVStackHeight() -> CGFloat {
+            // Here you can calculate the height of the VStack content dynamically
+            // based on the number of intervals or other content you have.
+            // This is just a placeholder for demonstration; the actual calculation would depend on your content.
+            let baseHeight: CGFloat = 200 // Base height for picker and buttons
+            let intervalHeight: CGFloat = 50 // Approximate height per interval row
+            let intervalCount = CGFloat(presetViewModel.presets.count) // Number of intervals
+            return baseHeight + (intervalCount * intervalHeight)
+        }
+}
+
+struct onTheFlyView: View {
+    var body: some View {
+        Text("Feeling spontaneous? Create intervals as you run using On-the-Fly mode.")
+            .font(.headline)
+            .multilineTextAlignment(.center)
+            .padding(.horizontal, 40)
+    }
+}
+
+struct presetView: View {
+    @ObservedObject var presetViewModel: PresetViewModel
+    @State var showTimeInput: Bool = false
+    @State var showDistanceInput: Bool = false
+    @State var timeInput: String = ""
+    @State var distanceInput: String = ""
+    
+    var body: some View {
+        VStack {
+            // debug statement (timeInput is always nil??
+            Text("Want structure? Use an interval running plan in Preset mode.")
+                .font(.headline)
+                .multilineTextAlignment(.center)
+                .padding(.horizontal, 40)
+            
+            let columns: [GridItem] = [
+                GridItem(.flexible(minimum: 50)), // For index numbers
+                GridItem(.flexible()), // For time
+                GridItem(.flexible()), // For distance
+            ]
+            
+            HStack {
+                LazyVGrid(columns: columns, alignment: .center, spacing: 10) {
+                    Text("#")
+                        .font(.headline)
+                    Text("Time")
+                        .font(.headline)
+                    Text("Distance")
+                        .font(.headline)
+                    
+                    ForEach(presetViewModel.presets.indices, id: \.self) { index in
+                        Text("\(index + 1)")
+                        if presetViewModel.presets[index].type == .time {
+                            Text("\(presetViewModel.presets[index].value, specifier: "%.2f")")
+                            Text("")
+                        } else {
+                            Text("")
+                            Text("\(presetViewModel.presets[index].value, specifier: "%.2f")")
+                        }
+                    }
+                    
+                    // row for adding new intervals
+                    Text("\(presetViewModel.presets.count + 1)")
+                    
+                    if showTimeInput {
+                        TextField("sec", text: $timeInput)
+                            .textFieldStyle(RoundedBorderTextFieldStyle())
+                            .multilineTextAlignment(.center)
+                            .keyboardType(.numberPad)
+                            .onSubmit {
+                                if let time = Double(timeInput) {
+                                    presetViewModel.addTime(time)
+                                }
+                                showTimeInput = false
+                                timeInput = ""
+                            }
+                            .onDisappear {
+                                timeInput = ""
+                            }
+                    } else {
+                        Button(action: {
+                            showTimeInput = true
+                            showDistanceInput = false
+                        }) {
+                            Image(systemName: "plus.circle")
+                        }
+                    }
+                    
+                    if showDistanceInput {
+                        TextField("mi", text: $distanceInput)
+                            .textFieldStyle(RoundedBorderTextFieldStyle())
+                            .multilineTextAlignment(.center)
+                            .keyboardType(.numberPad)
+                            .onSubmit {
+                                if let distance = Double(distanceInput) {
+                                    presetViewModel.addDistance(distance)
+                                }
+                                showDistanceInput = false
+                                distanceInput = ""
+                            }
+                            .onDisappear {
+                                distanceInput = ""
+                            }
+                    } else {
+                        Button(action: {
+                            showDistanceInput = true
+                            showTimeInput = false
+                        }) {
+                            Image(systemName: "plus.circle")
+                        }
+                    }
+                    
+                }.padding()
+                Spacer()
+            }
+        }
+        .padding(.horizontal)
+    }
+}
+
+class PresetViewModel: ObservableObject {
+    @Published var presets: [PresetInterval] = []
+    
+    func addTime(_ time: Double) {
+        presets.append(PresetInterval(type: .time, value: time))
     }
     
+    func addDistance(_ distance: Double) {
+        presets.append(PresetInterval(type: .distance, value: distance))
+    }
 }
 
 #Preview {
