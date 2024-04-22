@@ -19,6 +19,8 @@
 		66DF60C02BD0C416003628B0 /* RunView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66DF60BF2BD0C416003628B0 /* RunView.swift */; };
 		66DF60C32BD0C454003628B0 /* RunViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66DF60C22BD0C454003628B0 /* RunViewModel.swift */; };
 		66DF60C52BD0C546003628B0 /* PersistenceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66DF60C42BD0C546003628B0 /* PersistenceController.swift */; };
+		D4C2A3402BD6EFED00064847 /* AccountView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C2A33F2BD6EFED00064847 /* AccountView.swift */; };
+		D4C2A3422BD6F00800064847 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C2A3412BD6F00800064847 /* HomeView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -54,6 +56,8 @@
 		66DF60BF2BD0C416003628B0 /* RunView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RunView.swift; sourceTree = "<group>"; };
 		66DF60C22BD0C454003628B0 /* RunViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RunViewModel.swift; sourceTree = "<group>"; };
 		66DF60C42BD0C546003628B0 /* PersistenceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistenceController.swift; sourceTree = "<group>"; };
+		D4C2A33F2BD6EFED00064847 /* AccountView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountView.swift; sourceTree = "<group>"; };
+		D4C2A3412BD6F00800064847 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -162,6 +166,8 @@
 			children = (
 				66DF60C22BD0C454003628B0 /* RunViewModel.swift */,
 				66DF60C42BD0C546003628B0 /* PersistenceController.swift */,
+				D4C2A33F2BD6EFED00064847 /* AccountView.swift */,
+				D4C2A3412BD6F00800064847 /* HomeView.swift */,
 			);
 			path = "View Models";
 			sourceTree = "<group>";
@@ -296,10 +302,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D4C2A3422BD6F00800064847 /* HomeView.swift in Sources */,
 				6659D9952BC871D30004FC61 /* ContentView.swift in Sources */,
 				66DF60C52BD0C546003628B0 /* PersistenceController.swift in Sources */,
 				66DF60C02BD0C416003628B0 /* RunView.swift in Sources */,
 				66DF60C32BD0C454003628B0 /* RunViewModel.swift in Sources */,
+				D4C2A3402BD6EFED00064847 /* AccountView.swift in Sources */,
 				66DF60BC2BD0C19C003628B0 /* DataModel.xcdatamodeld in Sources */,
 				6659D9932BC871D30004FC61 /* RungerApp.swift in Sources */,
 				66DF60BE2BD0C405003628B0 /* StartRunView.swift in Sources */,
