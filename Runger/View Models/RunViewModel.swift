@@ -10,7 +10,8 @@ import CoreData
 
 class RunViewModel: ObservableObject {
     @Published var isRunning: Bool = false
-    private var currentRun: RunModel?
+    @Published var shouldSaveRun: Bool = false
+    @Published var currentRun: RunModel?
     
     let context: NSManagedObjectContext
     
@@ -35,11 +36,18 @@ class RunViewModel: ObservableObject {
 //        saveContext()
     }
     
-    func endRun() {
+    func endRun(shouldSave: Bool) {
         guard let run = currentRun else { return }
         run.endTime = Date()
         isRunning = false
-//        saveContext()
+        if (shouldSave) {
+            saveContext()
+        } else {
+            context.delete(run)
+            saveContext()
+        }
         currentRun = nil
     }
+    
+    
 }
