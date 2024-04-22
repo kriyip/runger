@@ -8,17 +8,25 @@
 import Foundation
 import CoreData
 
+
 struct PersistenceController {
     static let shared = PersistenceController()
     let container: NSPersistentContainer
     
-    init() {
+    init(inMemory: Bool = false) {
         container = NSPersistentContainer(name: "CoreDataModel")
-        container.loadPersistentStores(completionHandler: { (description, error) in
+        if inMemory {
+            // Configure the container to use an in-memory store.
+            let description = NSPersistentStoreDescription()
+            description.url = URL(fileURLWithPath: "/dev/null") // Using an in-memory store
+            container.persistentStoreDescriptions = [description]
+        }
+        container.loadPersistentStores(completionHandler: { (storeDescription, error) in
             if let error = error as NSError? {
-                // Real apps should handle this error appropriately.
+                
                 fatalError("Unresolved error \(error), \(error.userInfo)")
             }
         })
     }
 }
+
