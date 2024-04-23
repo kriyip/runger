@@ -15,7 +15,11 @@
 		6659D9AE2BC871D40004FC61 /* RungerUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6659D9AD2BC871D40004FC61 /* RungerUITests.swift */; };
 		6659D9B02BC871D40004FC61 /* RungerUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6659D9AF2BC871D40004FC61 /* RungerUITestsLaunchTests.swift */; };
 		666474772BD551F900303055 /* BottomSheet in Frameworks */ = {isa = PBXBuildFile; productRef = 666474762BD551F900303055 /* BottomSheet */; };
-		666474792BD552D900303055 /* BottomSheetViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 666474782BD552D900303055 /* BottomSheetViewModel.swift */; };
+		6664747B2BD5F31600303055 /* RunModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6664747A2BD5F31600303055 /* RunModel.swift */; };
+		6664747D2BD5F43D00303055 /* HKController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6664747C2BD5F43D00303055 /* HKController.swift */; };
+		666474802BD5F4B000303055 /* CLLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6664747F2BD5F4B000303055 /* CLLocation.swift */; };
+		666474862BD718F000303055 /* TestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 666474852BD718F000303055 /* TestView.swift */; };
+		666474882BD7197F00303055 /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 666474872BD7197F00303055 /* LocationManager.swift */; };
 		66DF60BC2BD0C19C003628B0 /* DataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 66DF60BA2BD0C19C003628B0 /* DataModel.xcdatamodeld */; };
 		66DF60BE2BD0C405003628B0 /* StartRunView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66DF60BD2BD0C405003628B0 /* StartRunView.swift */; };
 		66DF60C02BD0C416003628B0 /* RunView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66DF60BF2BD0C416003628B0 /* RunView.swift */; };
@@ -51,7 +55,13 @@
 		6659D9A92BC871D40004FC61 /* RungerUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RungerUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		6659D9AD2BC871D40004FC61 /* RungerUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RungerUITests.swift; sourceTree = "<group>"; };
 		6659D9AF2BC871D40004FC61 /* RungerUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RungerUITestsLaunchTests.swift; sourceTree = "<group>"; };
-		666474782BD552D900303055 /* BottomSheetViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomSheetViewModel.swift; sourceTree = "<group>"; };
+		6664747A2BD5F31600303055 /* RunModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RunModel.swift; sourceTree = "<group>"; };
+		6664747C2BD5F43D00303055 /* HKController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HKController.swift; sourceTree = "<group>"; };
+		6664747F2BD5F4B000303055 /* CLLocation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CLLocation.swift; sourceTree = "<group>"; };
+		666474832BD7174900303055 /* Runger.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Runger.entitlements; sourceTree = "<group>"; };
+		666474842BD717A000303055 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		666474852BD718F000303055 /* TestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestView.swift; sourceTree = "<group>"; };
+		666474872BD7197F00303055 /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
 		66DF60BB2BD0C19C003628B0 /* DataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = DataModel.xcdatamodel; sourceTree = "<group>"; };
 		66DF60BD2BD0C405003628B0 /* StartRunView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartRunView.swift; sourceTree = "<group>"; };
 		66DF60BF2BD0C416003628B0 /* RunView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RunView.swift; sourceTree = "<group>"; };
@@ -108,6 +118,9 @@
 		6659D9912BC871D30004FC61 /* Runger */ = {
 			isa = PBXGroup;
 			children = (
+				666474842BD717A000303055 /* Info.plist */,
+				666474832BD7174900303055 /* Runger.entitlements */,
+				6664747E2BD5F49D00303055 /* Extensions */,
 				66DF60BA2BD0C19C003628B0 /* DataModel.xcdatamodeld */,
 				6659D9BD2BC873F50004FC61 /* Views */,
 				6659D9BE2BC873FB0004FC61 /* View Models */,
@@ -148,6 +161,7 @@
 		6659D9BC2BC873D00004FC61 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				6664747A2BD5F31600303055 /* RunModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -157,6 +171,7 @@
 			children = (
 				66DF60BD2BD0C405003628B0 /* StartRunView.swift */,
 				66DF60BF2BD0C416003628B0 /* RunView.swift */,
+				666474852BD718F000303055 /* TestView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -166,9 +181,18 @@
 			children = (
 				66DF60C22BD0C454003628B0 /* RunViewModel.swift */,
 				66DF60C42BD0C546003628B0 /* PersistenceController.swift */,
-				666474782BD552D900303055 /* BottomSheetViewModel.swift */,
+				6664747C2BD5F43D00303055 /* HKController.swift */,
+				666474872BD7197F00303055 /* LocationManager.swift */,
 			);
 			path = "View Models";
+			sourceTree = "<group>";
+		};
+		6664747E2BD5F49D00303055 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				6664747F2BD5F4B000303055 /* CLLocation.swift */,
+			);
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -307,14 +331,18 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6664747D2BD5F43D00303055 /* HKController.swift in Sources */,
 				6659D9952BC871D30004FC61 /* ContentView.swift in Sources */,
+				666474862BD718F000303055 /* TestView.swift in Sources */,
+				666474802BD5F4B000303055 /* CLLocation.swift in Sources */,
+				6664747B2BD5F31600303055 /* RunModel.swift in Sources */,
 				66DF60C52BD0C546003628B0 /* PersistenceController.swift in Sources */,
 				66DF60C02BD0C416003628B0 /* RunView.swift in Sources */,
 				66DF60C32BD0C454003628B0 /* RunViewModel.swift in Sources */,
+				666474882BD7197F00303055 /* LocationManager.swift in Sources */,
 				66DF60BC2BD0C19C003628B0 /* DataModel.xcdatamodeld in Sources */,
 				6659D9932BC871D30004FC61 /* RungerApp.swift in Sources */,
 				66DF60BE2BD0C405003628B0 /* StartRunView.swift in Sources */,
-				666474792BD552D900303055 /* BottomSheetViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -475,13 +503,18 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = Runger/Runger.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Runger/Preview Content\"";
 				DEVELOPMENT_TEAM = 29VU26RVDN;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Runger/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "";
 				INFOPLIST_KEY_LSApplicationCategoryType = "";
+				INFOPLIST_KEY_NSHealthShareUsageDescription = "Uses healthkit data to track runs";
+				INFOPLIST_KEY_NSHealthUpdateUsageDescription = "uses healthkit to track runs";
 				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "This app uses your location to track your runs";
 				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = "This app uses your location to track your runs";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "This app uses your location to track your runs";
@@ -508,13 +541,18 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = Runger/Runger.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Runger/Preview Content\"";
 				DEVELOPMENT_TEAM = 29VU26RVDN;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Runger/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "";
 				INFOPLIST_KEY_LSApplicationCategoryType = "";
+				INFOPLIST_KEY_NSHealthShareUsageDescription = "Uses healthkit data to track runs";
+				INFOPLIST_KEY_NSHealthUpdateUsageDescription = "uses healthkit to track runs";
 				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "This app uses your location to track your runs";
 				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = "This app uses your location to track your runs";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "This app uses your location to track your runs";

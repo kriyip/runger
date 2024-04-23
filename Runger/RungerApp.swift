@@ -11,7 +11,7 @@ import SwiftUI
 struct RungerApp: App {    
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            TestView(runViewModel: RunViewModel(context: PersistenceController.shared.container.viewContext))
         }
     }
 }

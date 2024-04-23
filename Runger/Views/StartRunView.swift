@@ -32,10 +32,11 @@ struct StartRunView: View {
     @State private var distance: Double = 0
     @State private var time: Double = 0
     var presetViewModel = PresetViewModel()
-            
+    
     var body: some View {
         if (isStarted) {
-            RunView(runViewModel: runViewModel)
+            // getting just preset running mode to work first
+            RunView(runViewModel: runViewModel, presetViewModel: presetViewModel)
         } else {
             GeometryReader { geometry in
                 ZStack {
@@ -47,18 +48,12 @@ struct StartRunView: View {
                         .transition(.opacity)
                     
                     VStack {
-                        Text("Start Run")
-                            .font(.headline)
-                            .foregroundStyle(.black)
-                            .multilineTextAlignment(.center)
-                            .frame(minWidth: /*@START_MENU_TOKEN@*/0/*@END_MENU_TOKEN@*/, maxWidth: .infinity)
-                            .padding()
-//                        Spacer()
+                        Spacer()
                         
                         VStack {
                             Text("Start Run")
                                 .font(.headline)
-                                .padding()
+                                .padding(.top)
                             
                             Picker("Mode", selection: $selectedMode) {
                                 Text("On-the-Fly").tag(RunMode.onTheFly)
@@ -76,55 +71,9 @@ struct StartRunView: View {
                         }.padding()
                         .padding(.horizontal)
                         .background(Color.white.opacity(0.8).cornerRadius(15))
-                        .frame(width: geometry.size.width * 0.9) // Set width relative to screen size
-//                        .padding(.vertical, geometry.size.height / 2 - getDynamicVStackHeight() / 2) // Adjust vertical padding dynamically
+                        .frame(width: geometry.size.width * 0.9)
                         
-//                        ZStack {
-//                            Rectangle()
-//                                .foregroundColor(.white)
-//                                .opacity(0.8)
-//                                .cornerRadius(15)
-//                                .padding(.horizontal)
-//                            //                            .padding(.vertical, 150)
-//                            
-//                            GeometryReader { geometry in
-//                                VStack {
-//                                    Picker("Mode", selection: $selectedMode) {
-//                                        Text("On-the-Fly").tag(RunMode.onTheFly)
-//                                        Text("Preset").tag(RunMode.preset)
-//                                    }
-//                                    .pickerStyle(SegmentedPickerStyle())
-//                                    .padding(.horizontal, 40)
-//                                    .padding(.vertical)
-//                                    
-//                                    if selectedMode == .onTheFly {
-//                                        onTheFlyView()
-//                                    } else {
-//                                        presetView(presetViewModel: presetViewModel)
-//                                    }
-//                                }
-//                                .frame(width: geometry.size.width, alignment: .top) // Aligns the VStack to the top
-//                            }
-//                            
-//                            //                        VStack {
-//                            //                            Picker("Mode", selection: $selectedMode) {
-//                            //                                Text("On-the-Fly").tag(RunMode.onTheFly)
-//                            //                                Text("Preset").tag(RunMode.preset)
-//                            //                            }
-//                            //                            .pickerStyle(SegmentedPickerStyle())
-//                            //                            .padding(.horizontal, 40)
-//                            //                            .padding(.vertical)
-//                            //
-//                            //                            if selectedMode == .onTheFly {
-//                            //                                onTheFlyView()
-//                            //                            } else {
-//                            //                                presetView(presetViewModel: presetViewModel)
-//                            //                            }
-//                            //                        }
-//                        }
-//                        
-//                        
-//                        Spacer()
+                        Spacer()
                         Button("Start Run") {
                             runViewModel.isRunning = true
                             isStarted = true
@@ -155,9 +104,10 @@ struct StartRunView: View {
 struct onTheFlyView: View {
     var body: some View {
         Text("Feeling spontaneous? Create intervals as you run using On-the-Fly mode.")
-            .font(.headline)
+            .font(.callout)
             .multilineTextAlignment(.center)
-            .padding(.horizontal, 40)
+            .padding(.horizontal, 30)
+            .padding(.bottom)
     }
 }
 
@@ -171,10 +121,10 @@ struct presetView: View {
     var body: some View {
         VStack {
             // debug statement (timeInput is always nil??
-            Text("Want structure? Use an interval running plan in Preset mode.")
-                .font(.headline)
+            Text("Want structure? Use Preset mode to follow your interval running plan.")
+                .font(.callout)
                 .multilineTextAlignment(.center)
-                .padding(.horizontal, 40)
+                .padding(.horizontal, 10)
             
             let columns: [GridItem] = [
                 GridItem(.flexible(minimum: 50)), // For index numbers
@@ -258,18 +208,6 @@ struct presetView: View {
             }
         }
         .padding(.horizontal)
-    }
-}
-
-class PresetViewModel: ObservableObject {
-    @Published var presets: [PresetInterval] = []
-    
-    func addTime(_ time: Double) {
-        presets.append(PresetInterval(type: .time, value: time))
-    }
-    
-    func addDistance(_ distance: Double) {
-        presets.append(PresetInterval(type: .distance, value: distance))
     }
 }
 
