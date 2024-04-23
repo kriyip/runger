@@ -15,13 +15,13 @@ class RunViewModel: NSObject, ObservableObject, CLLocationManagerDelegate {
     @Published var isRunning: Bool = false
     @Published var position: MapCameraPosition = MapCameraPosition.region(
         MKCoordinateRegion(
-            center: CLLocationCoordinate2D(latitude: 51.507222, longitude: -0.1275),
-            span: MKCoordinateSpan(latitudeDelta: 1, longitudeDelta: 1)
+            center: CLLocationCoordinate2D(latitude: 39.95145254, longitude: -75.19634140),
+            span: MKCoordinateSpan(latitudeDelta: 0.25, longitudeDelta: 0.25)
         )
     )
     
-    @Published var userPath = MKPolyline()
-    
+    @Published var lineCoordinates: [CLLocationCoordinate2D] = []
+    @Published var userPath = MKPolyline() /// delete this later?
     
     var routeBuilder: HKWorkoutRouteBuilder?
     var locations: [CLLocation] = []
@@ -38,8 +38,7 @@ class RunViewModel: NSObject, ObservableObject, CLLocationManagerDelegate {
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
         
         /// https://stackoverflow.com/questions/67271580/hkworkoutroutebuilder-and-cllocationmanager-only-adding-route-updates-in-increme
-        // Update every 13.5 meters in order to achieve updates no faster than once every 3sec.
-        // This assumes runner is running at no faster than 6min/mile
+        // Update every 13.5 meters in order to achieve updates no faster than once every 3sec (6 min/mile max update)
         locationManager.distanceFilter = 13.5
         locationManager.activityType = .fitness
         
@@ -54,27 +53,20 @@ class RunViewModel: NSObject, ObservableObject, CLLocationManagerDelegate {
             locationManager.requestWhenInUseAuthorization()
             requestLocation()
             locationManager.allowsBackgroundLocationUpdates = true
-            guard let lastLocation = locations.last else {
-                print("error, no location gotten")
-                return
-            }
-            position = MapCameraPosition.region(
-                MKCoordinateRegion(
-                    center: CLLocationCoordinate2D(latitude: lastLocation.coordinate.latitude, longitude: lastLocation.coordinate.longitude),
-                    span: MKCoordinateSpan(latitudeDelta: 1, longitudeDelta: 1)
-                )
-            )
         case .authorizedAlways, .authorizedWhenInUse:
             requestLocation()
-            position = MapCameraPosition.region(
-                MKCoordinateRegion(
-                    center: CLLocationCoordinate2D(latitude: 51.507222, longitude: -0.1275),
-                    span: MKCoordinateSpan(latitudeDelta: 1, longitudeDelta: 1)
-                )
-            )
         @unknown default:
             break
         }
+    }
+    
+    func setCameraPosition(latitude: Double, longitude: Double) {
+        position = MapCameraPosition.region(
+            MKCoordinateRegion(
+                center: CLLocationCoordinate2D(latitude: latitude, longitude: longitude),
+                span: MKCoordinateSpan(latitudeDelta: 1, longitudeDelta: 1)
+            )
+        )
     }
     
     func requestLocation() {
@@ -103,6 +95,9 @@ class RunViewModel: NSObject, ObservableObject, CLLocationManagerDelegate {
         print("didUpdateLocations Location: \(location)")
         self.locations.append(location)
         updatePath(with: self.locations)
+        setCameraPosition(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude)
+        
+        lineCoordinates.append(location.coordinate)
     }
     
     func locationManager(_ manager: CLLocationManager, didFailWithError error: any Error) {
@@ -115,7 +110,7 @@ class RunViewModel: NSObject, ObservableObject, CLLocationManagerDelegate {
         self.userPath = MKPolyline(coordinates: coordinates, count: coordinates.count)
     }
     
-    /// RUN-RELATED FUNCTIONS
+    /// RUN LOGIC RELATED FUNCTIONS
     private func saveContext() {
         do {
             try context.save()

@@ -17,19 +17,34 @@ struct TestView: View {
     @State private var routeLocations = [CLLocation]()
     
     @ObservedObject var runViewModel: RunViewModel
+    
+//    @State private var lineCoordinates = [
+//
+//        // Steve Jobs theatre
+//        CLLocationCoordinate2D(latitude: 37.330828, longitude: -122.007495),
+//
+//        // Caffè Macs
+//        CLLocationCoordinate2D(latitude: 37.336083, longitude: -122.007356),
+//
+//        // Apple wellness center
+//        CLLocationCoordinate2D(latitude: 37.336901, longitude:  -122.012345)
+//      ];
+    
+    @State private var region = MKCoordinateRegion(
+        // Apple Park
+        center: CLLocationCoordinate2D(latitude: 37.334803, longitude: -122.008965),
+        span: MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01)
+      )
 
     var body: some View {
         VStack {
             if authorizationStatus == .sharingAuthorized {
                 Text("Authorized")
                 
-                Map(position: $runViewModel.position)
-                    
+//                Map(position: $runViewModel.position)
                 
-//                List(workouts, id: \.uuid) { workout in
-//                    Text("Workout: \(workout.startDate)")
-//                }
-                
+                MapViewNew(region: region, lineCoordinates: runViewModel.lineCoordinates)
+                    .edgesIgnoringSafeArea(.all)
             } else {
                 Text("Authorization status: \(authorizationStatus)")
                 Button("Authorize HealthKit") {
@@ -44,19 +59,47 @@ struct TestView: View {
         }
 
     }
-    // used to load a previous workout, i think
-//    private func loadWorkouts() {
-//        HKController.loadWorkouts { loadedWorkouts in
-//            self.workouts = loadedWorkouts
-//            // Optionally, load routes for each workout
-//            for workout in workouts {
-//                HKController.loadWorkoutRoute(hkWorkout: workout) { locations in
-//                    self.routeCoordinates += locations.map { $0.coordinate }
-//                }
-//            }
-//        }
-//    }
+}
+
+struct MapViewNew: UIViewRepresentable {
+    let region: MKCoordinateRegion
+    let lineCoordinates: [CLLocationCoordinate2D]
     
+    // Create the MKMapView using UIKit.
+    func makeUIView(context: Context) -> MKMapView {
+        let mapView = MKMapView()
+        mapView.delegate = context.coordinator
+        mapView.region = region
+
+        let polyline = MKPolyline(coordinates: lineCoordinates, count: lineCoordinates.count)
+        mapView.addOverlay(polyline)
+
+        return mapView
+    }
+
+      func updateUIView(_ view: MKMapView, context: Context) {}
+
+      func makeCoordinator() -> Coordinator {
+        Coordinator(self)
+      }
+}
+
+class Coordinator: NSObject, MKMapViewDelegate {
+    var parent: MapViewNew
+
+    init(_ parent: MapViewNew) {
+        self.parent = parent
+    }
+
+    func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
+        if let routePolyline = overlay as? MKPolyline {
+            let renderer = MKPolylineRenderer(polyline: routePolyline)
+            renderer.strokeColor = UIColor.systemBlue
+            renderer.lineWidth = 10
+            return renderer
+        }
+        return MKOverlayRenderer()
+    }
 }
 
 #Preview {
