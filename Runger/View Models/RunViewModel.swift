@@ -7,32 +7,152 @@
 
 import Foundation
 import CoreData
+import CoreLocation
+import _MapKit_SwiftUI
+import HealthKit
 
-class RunViewModel: ObservableObject {
+class RunViewModel: NSObject, ObservableObject, CLLocationManagerDelegate {
     @Published var isRunning: Bool = false
     @Published var shouldSaveRun: Bool = false
     @Published var currentRun: RunModel?
+    @Published var position: MapCameraPosition = MapCameraPosition.region(
+        MKCoordinateRegion(
+            center: CLLocationCoordinate2D(latitude: 39.95145254, longitude: -75.19634140),
+            span: MKCoordinateSpan(latitudeDelta: 0.25, longitudeDelta: 0.25)
+        )
+    )
     
-    let context: NSManagedObjectContext
+    @Published var lineCoordinates: [CLLocationCoordinate2D] = []
+    @Published var userPath = MKPolyline()
     
-    init(context: NSManagedObjectContext) {
-        self.context = context
+    @Published var lastLocation: CLLocation?
+    @Published var runLocations: [CLLocation?] = []
+    @Published var runDistances : [CLLocationDistance?] = []
+    @Published var totalDistance: CLLocationDistance = 0.0
+    @Published var currSpeed : CLLocationSpeed = 0.0
+    
+    var routeBuilder: HKWorkoutRouteBuilder?
+    var locations: [CLLocation] = []
+    
+    var currentRun: RunModel?
+    
+    let locationManager = CLLocationManager()
+    private var isRequestingLocation = false
+//    let context: NSManagedObjectContext
+    
+    override init() {
+        super.init()
+        locationManager.delegate = self
+        locationManager.desiredAccuracy = kCLLocationAccuracyBest
+        
+        /// https://stackoverflow.com/questions/67271580/hkworkoutroutebuilder-and-cllocationmanager-only-adding-route-updates-in-increme
+        // Update every 13.5 meters in order to achieve updates no faster than once every 3sec (6 min/mile max update)
+        locationManager.distanceFilter = 13.5
+        locationManager.activityType = .fitness
+        
+        startTracking()
+        locationManager.startUpdatingLocation()
     }
     
-    private func saveContext() {
-        do {
-            try context.save()
-        } catch {
-            print("Failed to save context: \(error)")
+    /// LOCATION-RELATED FUNCTIONS
+    func startTracking() {
+        //        authorize location
+        switch locationManager.authorizationStatus {
+        case .notDetermined, .restricted, .denied:
+            locationManager.requestWhenInUseAuthorization()
+            requestLocation()
+            locationManager.allowsBackgroundLocationUpdates = true
+        case .authorizedAlways, .authorizedWhenInUse:
+            requestLocation()
+        @unknown default:
+            break
         }
     }
     
+    func setCameraPosition(latitude: Double, longitude: Double) {
+        position = MapCameraPosition.region(
+            MKCoordinateRegion(
+                center: CLLocationCoordinate2D(latitude: latitude, longitude: longitude),
+                span: MKCoordinateSpan(latitudeDelta: 1, longitudeDelta: 1)
+            )
+        )
+    }
+    
+    func requestLocation() {
+        if !isRequestingLocation {
+            isRequestingLocation = true
+            locationManager.requestLocation()
+        }
+    }
+    
+    // handle authorization changes
+    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
+        switch status {
+        case .authorizedAlways, .authorizedWhenInUse:
+            requestLocation()
+        default:
+            print("Location not authorized")
+            break
+        }
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        guard let location = locations.last else { return }
+        isRequestingLocation = false
+        lastLocation = location
+        runLocations.append(lastLocation)
+        
+        let locationsCount = runLocations.count
+        if (locationsCount > 1){
+            self.currSpeed = location.speed
+            let newDist = lastLocation?.distance(from:( runLocations[locationsCount - 2] ?? lastLocation)!)
+            runDistances.append(newDist)
+            totalDistance += newDist ?? 0.0
+        }
+        
+        /// check which dining halls are near this location
+        print("didUpdateLocations Location: \(location)")
+        self.locations.append(location)
+        updatePath(with: self.locations)
+        setCameraPosition(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude)
+        
+        lineCoordinates.append(location.coordinate)
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didFailWithError error: any Error) {
+        isRequestingLocation = false
+        print("Failed to get location: \(error)")
+    }
+    
+    private func updatePath(with locations: [CLLocation]) {
+        let coordinates = locations.map { $0.coordinate }
+        self.userPath = MKPolyline(coordinates: coordinates, count: coordinates.count)
+    }
+    
+    /// RUN LOGIC RELATED FUNCTIONS
+//    private func saveContext() {
+//        do {
+//            try context.save()
+//        } catch {
+//            print("Failed to save context: \(error)")
+//        }
+//    }
+    
     func startRun() {
-        let newRun = RunModel(context: context)
-        newRun.id = UUID()
-        newRun.startTime = Date()
-        currentRun = newRun
-        isRunning = true
+        let locationsCount = runLocations.count
+        if locationsCount > 1 {
+            let locToKeep = runLocations[locationsCount - 1]
+            runLocations.removeAll()
+            runLocations.append(locToKeep)
+        }
+        runDistances.removeAll()
+        totalDistance = 0.0
+
+//        let newRun = RunModel(context: context)
+//        newRun.id = UUID()
+//        newRun.startTime = Date()
+//        currentRun = newRun
+//        isRunning = true
 //        saveContext()
     }
     
@@ -50,4 +170,16 @@ class RunViewModel: ObservableObject {
     }
     
     
+}
+
+class PresetViewModel: ObservableObject {
+    @Published var presets: [PresetInterval] = []
+    
+    func addTime(_ time: Double) {
+        presets.append(PresetInterval(type: .time, value: time))
+    }
+    
+    func addDistance(_ distance: Double) {
+        presets.append(PresetInterval(type: .distance, value: distance))
+    }
 }
