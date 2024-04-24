@@ -24,6 +24,8 @@
 		66DF60C02BD0C416003628B0 /* RunView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66DF60BF2BD0C416003628B0 /* RunView.swift */; };
 		66DF60C32BD0C454003628B0 /* RunViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66DF60C22BD0C454003628B0 /* RunViewModel.swift */; };
 		66DF60C52BD0C546003628B0 /* PersistenceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66DF60C42BD0C546003628B0 /* PersistenceController.swift */; };
+		9538F3932BD9D1A000FA5370 /* SaveRunView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9538F3922BD9D1A000FA5370 /* SaveRunView.swift */; };
+		9538F3952BD9D1C000FA5370 /* SavedRunView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9538F3942BD9D1C000FA5370 /* SavedRunView.swift */; };
 		D4C2A3402BD6EFED00064847 /* AccountView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C2A33F2BD6EFED00064847 /* AccountView.swift */; };
 		D4C2A3422BD6F00800064847 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C2A3412BD6F00800064847 /* HomeView.swift */; };
 /* End PBXBuildFile section */
@@ -67,6 +69,8 @@
 		66DF60BF2BD0C416003628B0 /* RunView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RunView.swift; sourceTree = "<group>"; };
 		66DF60C22BD0C454003628B0 /* RunViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RunViewModel.swift; sourceTree = "<group>"; };
 		66DF60C42BD0C546003628B0 /* PersistenceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistenceController.swift; sourceTree = "<group>"; };
+		9538F3922BD9D1A000FA5370 /* SaveRunView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SaveRunView.swift; sourceTree = "<group>"; };
+		9538F3942BD9D1C000FA5370 /* SavedRunView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavedRunView.swift; sourceTree = "<group>"; };
 		D4C2A33F2BD6EFED00064847 /* AccountView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountView.swift; sourceTree = "<group>"; };
 		D4C2A3412BD6F00800064847 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -173,6 +177,8 @@
 			children = (
 				66DF60BD2BD0C405003628B0 /* StartRunView.swift */,
 				66DF60BF2BD0C416003628B0 /* RunView.swift */,
+				9538F3922BD9D1A000FA5370 /* SaveRunView.swift */,
+				9538F3942BD9D1C000FA5370 /* SavedRunView.swift */,
 				668C35792BD86398003085EB /* MapView.swift */,
 			);
 			path = Views;
@@ -335,12 +341,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				D4C2A3422BD6F00800064847 /* HomeView.swift in Sources */,
+				9538F3932BD9D1A000FA5370 /* SaveRunView.swift in Sources */,
 				6664747D2BD5F43D00303055 /* HKController.swift in Sources */,
 				6659D9952BC871D30004FC61 /* ContentView.swift in Sources */,
 				666474802BD5F4B000303055 /* CLLocation.swift in Sources */,
 				668C357A2BD86398003085EB /* MapView.swift in Sources */,
 				6664747B2BD5F31600303055 /* RunModel.swift in Sources */,
 				66DF60C52BD0C546003628B0 /* PersistenceController.swift in Sources */,
+				9538F3952BD9D1C000FA5370 /* SavedRunView.swift in Sources */,
 				66DF60C02BD0C416003628B0 /* RunView.swift in Sources */,
 				66DF60C32BD0C454003628B0 /* RunViewModel.swift in Sources */,
 				D4C2A3402BD6EFED00064847 /* AccountView.swift in Sources */,
