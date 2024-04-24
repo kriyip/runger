@@ -13,8 +13,9 @@ struct RungerApp: App {
 
     var body: some Scene {
         WindowGroup {
-            StartRunView()
-                .environment(\.managedObjectContext, persistenceController.container.viewContext)
+            ContentView().environment(\.managedObjectContext, persistenceController.container.viewContext)
+//            StartRunView()
+//                .environment(\.managedObjectContext, persistenceController.container.viewContext)
         }
     }
 }

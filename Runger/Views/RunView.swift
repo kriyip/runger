@@ -64,7 +64,7 @@ struct RunView: View {
                     
                     if start {
                         Button(action: {
-                            runViewModel.endRun()
+                            runViewModel.endRun(shouldSave: false)
                         }) {
                             ZStack {
                                 Circle()
@@ -85,7 +85,7 @@ struct RunView: View {
         }
         .onDisappear() {
             /// stop tracking
-            runViewModel.endRun()
+            runViewModel.endRun(shouldSave: false)
         }
     }
     

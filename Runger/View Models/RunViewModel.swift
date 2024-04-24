@@ -34,7 +34,7 @@ class RunViewModel: NSObject, ObservableObject, CLLocationManagerDelegate {
     var routeBuilder: HKWorkoutRouteBuilder?
     var locations: [CLLocation] = []
     
-    var currentRun: RunModel?
+//    var currentRun: RunModel?
     
     let locationManager = CLLocationManager()
     private var isRequestingLocation = false
@@ -161,10 +161,10 @@ class RunViewModel: NSObject, ObservableObject, CLLocationManagerDelegate {
         run.endTime = Date()
         isRunning = false
         if (shouldSave) {
-            saveContext()
+//            saveContext()
         } else {
-            context.delete(run)
-            saveContext()
+//            context.delete(run)
+//            saveContext()
         }
         currentRun = nil
     }
