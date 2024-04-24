@@ -18,7 +18,7 @@ struct RunView: View {
     @State private var showBottomSheet = false
     @State var runMode: RunMode = .preset
     
-    @State private var isTaped : Bool = false
+    @State private var isTapped : Bool = false
     @State private var button : String = "Start"
     @State private var color : Color = .green
     @State private var start : Bool = true
@@ -28,10 +28,11 @@ struct RunView: View {
 
     var body: some View {
         ZStack {
-            MapView(locationManager: runViewModel, started: $isTaped)
+            MapView(locationManager: runViewModel, started: $isTapped)
+//                .ignoresSafeArea(.all)
                 .frame(maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/, maxHeight: .infinity)
             VStack {
-                if runViewModel.isRunning {
+                if !start {
                     Text("Running")
                         .font(.headline)
                 } else {
@@ -43,7 +44,7 @@ struct RunView: View {
 //                Text(self.timer.timeString).font(.system(size : 20)).padding().offset(y:10)
                 
                 HStack{
-                    if isTaped == false {
+                    if isTapped == false {
                         // if tapped once then disable tapping again
                     }
                     Button(action: {if start {
@@ -59,6 +60,20 @@ struct RunView: View {
                             Text(button)
                                 .foregroundColor(Color.white)
                         }.padding()
+                    }
+                    
+                    if start {
+                        Button(action: {
+                            runViewModel.endRun()
+                        }) {
+                            ZStack {
+                                Circle()
+                                    .fill()
+                                    .frame(width: /*@START_MENU_TOKEN@*/100/*@END_MENU_TOKEN@*/, height: 100)
+                                Text(button)
+                                    .foregroundColor(Color.white)
+                            }
+                        }
                     }
                 }
             }
@@ -80,14 +95,14 @@ struct RunView: View {
             color = .red
         }
 //        self.timer.start()
-        self.isTaped.toggle()
+        self.isTapped.toggle()
         self.start.toggle()
     }
     
     func stop()  {
 //        self.timer.stop()
         self.start.toggle()
-        self.isTaped.toggle()
+        self.isTapped.toggle()
         
         //runList.addRun(run:Run(distance: 5.0, timer: timer.secs, locations: locManager.coords,region: locManager))
         button = "Start"

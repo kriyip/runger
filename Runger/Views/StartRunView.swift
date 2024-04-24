@@ -83,7 +83,7 @@ struct StartRunView: View {
                         .padding()
                         .background(Color.blue)
                         .cornerRadius(15)
-                        .padding(.horizontal)
+                        .padding()
                     }
                 }
             }
@@ -91,9 +91,8 @@ struct StartRunView: View {
         
     }
     private func getDynamicVStackHeight() -> CGFloat {
-            // Here you can calculate the height of the VStack content dynamically
+            // calculate the height of the VStack content dynamically
             // based on the number of intervals or other content you have.
-            // This is just a placeholder for demonstration; the actual calculation would depend on your content.
             let baseHeight: CGFloat = 200 // Base height for picker and buttons
             let intervalHeight: CGFloat = 50 // Approximate height per interval row
             let intervalCount = CGFloat(presetViewModel.presets.count) // Number of intervals

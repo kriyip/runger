@@ -8,14 +8,34 @@
 import SwiftUI
 
 struct ContentView: View {
+    @State var goTest: Bool?
+    @StateObject var runviewmodel = RunViewModel()
+    @StateObject var timer = StopWatch()
+
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
+        TabView {
+            // home tab
+            VStack {
+                EmptyView()
+            }
+            .tabItem { Label("Home", systemImage: "house") }
+            .navigationBarHidden(true)
+            .padding()
+            
+            
+            // running tab
+            VStack {
+                StartRunView(runViewModel: runviewmodel)
+            }
+            .tabItem{Label("Run", systemImage: "figure.run")}
+            .navigationBarHidden(true).environmentObject(timer)
+            
+            VStack {
+                EmptyView()
+            }
+            .tabItem{Label("Account", systemImage: "person")}
+            .navigationBarHidden(true).environmentObject(timer)
         }
-        .padding()
     }
 }
 

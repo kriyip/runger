@@ -8,28 +8,11 @@
 import SwiftUI
 
 @main
-struct RungerApp: App {    
-    @State var goTest: Bool?
-    @StateObject var runviewmodel = RunViewModel()
-    @StateObject var timer = StopWatch()
+struct RungerApp: App {     
     
     var body: some Scene {
-        
         WindowGroup {
-            if let goTest = goTest {
-                if goTest {
-                    TestView(runViewModel: runviewmodel)
-                } else {
-                    RunView(runViewModel: runviewmodel).environmentObject(timer)
-                }
-            } else {
-                Button("TestView") {
-                    goTest = true
-                }
-                Button("RunView") {
-                    goTest = false
-                }
-            }
+            ContentView()
         }
     }
 }
