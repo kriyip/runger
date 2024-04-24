@@ -14,7 +14,7 @@ struct PersistenceController {
     let container: NSPersistentContainer
     
     init(inMemory: Bool = false) {
-        container = NSPersistentContainer(name: "CoreDataModel")
+        container = NSPersistentContainer(name: "DataModel")
         if inMemory {
             // Configure the container to use an in-memory store.
             let description = NSPersistentStoreDescription()
