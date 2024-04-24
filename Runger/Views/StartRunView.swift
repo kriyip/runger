@@ -36,7 +36,7 @@ struct StartRunView: View {
     var body: some View {
         if (isStarted) {
             // getting just preset running mode to work first
-            RunView(runViewModel: runViewModel, presetViewModel: presetViewModel)
+            RunView(runViewModel: runViewModel)
         } else {
             GeometryReader { geometry in
                 ZStack {
@@ -212,5 +212,5 @@ struct presetView: View {
 }
 
 #Preview {
-    StartRunView(runViewModel: RunViewModel(context: PersistenceController.shared.container.viewContext))
+    StartRunView(runViewModel: RunViewModel())
 }

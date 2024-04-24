@@ -21,18 +21,24 @@ class RunViewModel: NSObject, ObservableObject, CLLocationManagerDelegate {
     )
     
     @Published var lineCoordinates: [CLLocationCoordinate2D] = []
-    @Published var userPath = MKPolyline() /// delete this later?
+    @Published var userPath = MKPolyline()
+    
+    @Published var lastLocation: CLLocation?
+    @Published var runLocations: [CLLocation?] = []
+    @Published var runDistances : [CLLocationDistance?] = []
+    @Published var totalDistance: CLLocationDistance = 0.0
+    @Published var currSpeed : CLLocationSpeed = 0.0
     
     var routeBuilder: HKWorkoutRouteBuilder?
     var locations: [CLLocation] = []
     
-    private var currentRun: RunModel?
+    var currentRun: RunModel?
+    
     let locationManager = CLLocationManager()
     private var isRequestingLocation = false
-    let context: NSManagedObjectContext
+//    let context: NSManagedObjectContext
     
-    init(context: NSManagedObjectContext) {
-        self.context = context
+    override init() {
         super.init()
         locationManager.delegate = self
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
@@ -43,6 +49,7 @@ class RunViewModel: NSObject, ObservableObject, CLLocationManagerDelegate {
         locationManager.activityType = .fitness
         
         startTracking()
+        locationManager.startUpdatingLocation()
     }
     
     /// LOCATION-RELATED FUNCTIONS
@@ -90,6 +97,16 @@ class RunViewModel: NSObject, ObservableObject, CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         guard let location = locations.last else { return }
         isRequestingLocation = false
+        lastLocation = location
+        runLocations.append(lastLocation)
+        
+        let locationsCount = runLocations.count
+        if (locationsCount > 1){
+            self.currSpeed = location.speed
+            let newDist = lastLocation?.distance(from:( runLocations[locationsCount - 2] ?? lastLocation)!)
+            runDistances.append(newDist)
+            totalDistance += newDist ?? 0.0
+        }
         
         /// check which dining halls are near this location
         print("didUpdateLocations Location: \(location)")
@@ -111,20 +128,29 @@ class RunViewModel: NSObject, ObservableObject, CLLocationManagerDelegate {
     }
     
     /// RUN LOGIC RELATED FUNCTIONS
-    private func saveContext() {
-        do {
-            try context.save()
-        } catch {
-            print("Failed to save context: \(error)")
-        }
-    }
+//    private func saveContext() {
+//        do {
+//            try context.save()
+//        } catch {
+//            print("Failed to save context: \(error)")
+//        }
+//    }
     
     func startRun() {
-        let newRun = RunModel(context: context)
-        newRun.id = UUID()
-        newRun.startTime = Date()
-        currentRun = newRun
-        isRunning = true
+        let locationsCount = runLocations.count
+        if locationsCount > 1 {
+            let locToKeep = runLocations[locationsCount - 1]
+            runLocations.removeAll()
+            runLocations.append(locToKeep)
+        }
+        runDistances.removeAll()
+        totalDistance = 0.0
+
+//        let newRun = RunModel(context: context)
+//        newRun.id = UUID()
+//        newRun.startTime = Date()
+//        currentRun = newRun
+//        isRunning = true
 //        saveContext()
     }
     

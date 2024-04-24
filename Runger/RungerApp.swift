@@ -10,8 +10,8 @@ import SwiftUI
 @main
 struct RungerApp: App {    
     @State var goTest: Bool?
-    @StateObject var runviewmodel = RunViewModel(context: PersistenceController.shared.container.viewContext)
-    @StateObject var vm = PresetViewModel()
+    @StateObject var runviewmodel = RunViewModel()
+    @StateObject var timer = StopWatch()
     
     var body: some Scene {
         
@@ -20,7 +20,7 @@ struct RungerApp: App {
                 if goTest {
                     TestView(runViewModel: runviewmodel)
                 } else {
-                    RunView(runViewModel: runviewmodel, presetViewModel: vm)
+                    RunView(runViewModel: runviewmodel).environmentObject(timer)
                 }
             } else {
                 Button("TestView") {
@@ -31,6 +31,5 @@ struct RungerApp: App {
                 }
             }
         }
-        
     }
 }
