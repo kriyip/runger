@@ -24,8 +24,9 @@ struct SavedRunView: View {
                     if let endTime = run.endTime, let startTime = run.startTime {
                         Text("Duration: \((endTime.timeIntervalSince(startTime) / 60).formatted(.number.precision(.fractionLength(2)))) minutes")
                     }
-                    Text("Distance: \(run.totalDistance, specifier: "%.2f") meters")
-                    Text("Average Pace: \(run.averagePace, specifier: "%.2f") min/km")
+                    Text("Distance: \(run.totalDistance, specifier: "%.2f") m")
+                    Text("Duration: \(run.totalDuration, specifier: "%.2f)") sec")
+                    Text("Average Pace: \(run.averagePace, specifier: "%.2f") m/s")
                     if let id = run.id {
                         Text("Run ID: \(id.uuidString)")
                     }

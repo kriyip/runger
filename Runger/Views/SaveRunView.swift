@@ -15,20 +15,32 @@ struct SaveRunView: View {
         NavigationView {
             VStack {
                 Text("Run Ended")
-                Text("Distance: \(String(format: "%.2f", runViewModel.totalDistance)) meters")
-                Text("Duration: \(timer.timeString)")
-                Text("Average Pace: \(String(format: "%.2f", runViewModel.totalDistance / timer.secondsPassed)) min/mi")
-            
-                .padding()
+                    .font(.headline)
                 
+                VStack {
+                    Text("Distance: \(String(format: "%.2f", runViewModel.totalDistance)) m")
+                    Text("Duration: \(timer.timeString)")
+                    if (timer.secondsPassed > 0) {
+                        Text("Average Pace: \(String(format: "%.2f", runViewModel.totalDistance / timer.secondsPassed)) m/s")
+                            .padding()
+                    }
+                }.padding()
+                
+                if (timer.secondsPassed <= 0) {
+                    Text("this run is too short to be saved.")
+                        .font(.caption)
+                        .bold()
+                        .foregroundStyle(.red)
+                }
                 Button("Save Run") {
-                    persistenceController.saveContext() // Saves the current state to CoreData
+                    persistenceController.saveRun(distance: runViewModel.totalDistance, duration: timer.secondsPassed) // Saves the current state to CoreData
                     runViewModel.resetRunViewModel() // Reset the ViewModel for new data
                 }
                 .padding()
-                .background(Color.green)
+                .background(timer.secondsPassed > 0 ? Color.green : Color.secondary)
                 .foregroundColor(.white)
                 .clipShape(Capsule())
+                .disabled(timer.secondsPassed <= 0)
 
                 Button("Discard Run") {
                     runViewModel.resetRunViewModel() // Clears the current run data without saving
@@ -38,11 +50,11 @@ struct SaveRunView: View {
                 .foregroundColor(.white)
                 .clipShape(Capsule())
                 
-                NavigationLink(destination: SavedRunView()) {
-                    Text("See All Saved Runs")
-                        .foregroundColor(.blue)
-                        .padding()
-                }
+//                NavigationLink(destination: SavedRunView()) {
+//                    Text("See All Saved Runs")
+//                        .foregroundColor(.blue)
+//                        .padding()
+//                }
             }
             .navigationBarTitle("Run Details", displayMode: .inline)
         }

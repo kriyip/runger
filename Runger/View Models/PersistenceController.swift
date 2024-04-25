@@ -12,6 +12,8 @@ class PersistenceController: ObservableObject {
     static let shared = PersistenceController()
     let container: NSPersistentContainer
     
+    var currentRun: RunModel?
+    
     init(inMemory: Bool = false) {
         container = NSPersistentContainer(name: "DataModel")
         if inMemory {
@@ -58,28 +60,34 @@ class PersistenceController: ObservableObject {
     }
     
     //Function to fetch the top 10 fastest runs by average pace
-        func getTopFastestRuns(limit: Int = 10) -> [RunModel] {
-            let fetchRequest: NSFetchRequest<RunModel> = RunModel.fetchRequest()
-            let sortDescriptor = NSSortDescriptor(key: "averagePace", ascending: true) // Assumes lower pace is faster
-            fetchRequest.sortDescriptors = [sortDescriptor]
-            fetchRequest.fetchLimit = limit // Limit the number of results
+    func getTopFastestRuns(limit: Int = 10) -> [RunModel] {
+        let fetchRequest: NSFetchRequest<RunModel> = RunModel.fetchRequest()
+        let sortDescriptor = NSSortDescriptor(key: "averagePace", ascending: true) // Assumes lower pace is faster
+        fetchRequest.sortDescriptors = [sortDescriptor]
+        fetchRequest.fetchLimit = limit // Limit the number of results
 
-            do {
-                return try container.viewContext.fetch(fetchRequest)
-            } catch {
-                print("Failed to fetch fastest runs: \(error)")
-                return []
-            }
+        do {
+            return try container.viewContext.fetch(fetchRequest)
+        } catch {
+            print("Failed to fetch fastest runs: \(error)")
+            return []
         }
-    
-    func initializeRun() -> RunModel {
-        let newRun = RunModel(context: container.viewContext)
-        newRun.startTime = Date()
-        newRun.totalDistance = 0.0
-        newRun.averagePace = 0.0
-        return newRun
     }
-
+    
+    func initializeRun() {
+        let currentRun = RunModel(context: container.viewContext)
+        currentRun.id = UUID()
+        currentRun.startTime = Date()
+    }
+    
+    func saveRun(distance: Double, duration: Double) {
+        guard let currentRun else { return }
+        currentRun.endTime = Date()
+        currentRun.totalDistance = distance // meters
+        currentRun.totalDuration = duration // seconds
+        currentRun.averagePace = distance / duration // m/s
+        saveContext()
+    }
 }
 
 

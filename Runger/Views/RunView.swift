@@ -10,6 +10,7 @@ import MapKit
 
 struct RunView: View {
     @EnvironmentObject private var timer : StopWatch
+    @EnvironmentObject var persistenceController: PersistenceController
     @ObservedObject var runViewModel: RunViewModel
 
     @State private var userPath = MKPolyline()
@@ -38,9 +39,14 @@ struct RunView: View {
                     Text("Paused")
                 }
                 Spacer()
-                Text("Speed: \((runViewModel.currSpeed < 0) ? "0.00" : String(runViewModel.currSpeed))")
-                Text("Distance: \(runViewModel.totalDistance)")
-                Text(self.timer.timeString).font(.system(size : 20)).padding().offset(y:10)
+                Text("Speed: \((runViewModel.currSpeed < 0) ? "0.00 m/s" : String(runViewModel.currSpeed))")
+                    .font(.headline)
+                Text("Distance: \(String(format: "%.2f", runViewModel.totalDistance)) m")
+                    .font(.headline)
+                Text("\(self.timer.timeString)")
+                    .font(.system(size : 40)).padding().offset(y:10)
+                    .bold()
+                    .foregroundStyle(self.timer.mode == .start ? .green : .blue)
                 
                 HStack{
                     if isTapped == false {
@@ -84,9 +90,10 @@ struct RunView: View {
             SaveRunView()
         }
         .onAppear() {
-            /// start tracking, initialize run view model for new run
+            /// start tracking, initialize run model for new run
             timer.reset()
             runViewModel.startTracking()
+            persistenceController.initializeRun()
             runViewModel.startRun()
         }
     }

@@ -14,7 +14,7 @@ struct ContentView: View {
 
     var body: some View {
         // for debugging
-        Text("isRunning: \(runviewmodel.isRunning)")
+        // Text("isRunning: \(runviewmodel.isRunning)")
         
         if runviewmodel.isRunning {
             RunView(runViewModel: runviewmodel)
