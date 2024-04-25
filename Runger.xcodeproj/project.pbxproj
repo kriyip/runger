@@ -27,6 +27,7 @@
 		9538F3952BD9D1C000FA5370 /* SavedRunView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9538F3942BD9D1C000FA5370 /* SavedRunView.swift */; };
 		D4C2A3402BD6EFED00064847 /* AccountView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C2A33F2BD6EFED00064847 /* AccountView.swift */; };
 		D4C2A3422BD6F00800064847 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C2A3412BD6F00800064847 /* HomeView.swift */; };
+		D4E1FF3F2BDA0D2900C19F6A /* WeatherWidgetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4E1FF3E2BDA0D2900C19F6A /* WeatherWidgetView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -72,6 +73,7 @@
 		9538F3942BD9D1C000FA5370 /* SavedRunView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavedRunView.swift; sourceTree = "<group>"; };
 		D4C2A33F2BD6EFED00064847 /* AccountView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountView.swift; sourceTree = "<group>"; };
 		D4C2A3412BD6F00800064847 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
+		D4E1FF3E2BDA0D2900C19F6A /* WeatherWidgetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherWidgetView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -130,7 +132,6 @@
 				6659D9BE2BC873FB0004FC61 /* View Models */,
 				6659D9BC2BC873D00004FC61 /* Models */,
 				6659D9922BC871D30004FC61 /* RungerApp.swift */,
-				6659D9942BC871D30004FC61 /* ContentView.swift */,
 				6659D9962BC871D40004FC61 /* Assets.xcassets */,
 				6659D9982BC871D40004FC61 /* Preview Content */,
 			);
@@ -173,11 +174,15 @@
 		6659D9BD2BC873F50004FC61 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				D4C2A3412BD6F00800064847 /* HomeView.swift */,
+				D4C2A33F2BD6EFED00064847 /* AccountView.swift */,
 				66DF60BD2BD0C405003628B0 /* StartRunView.swift */,
 				66DF60BF2BD0C416003628B0 /* RunView.swift */,
 				9538F3922BD9D1A000FA5370 /* SaveRunView.swift */,
 				9538F3942BD9D1C000FA5370 /* SavedRunView.swift */,
 				668C35792BD86398003085EB /* MapView.swift */,
+				6659D9942BC871D30004FC61 /* ContentView.swift */,
+				D4E1FF3E2BDA0D2900C19F6A /* WeatherWidgetView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -187,8 +192,6 @@
 			children = (
 				66DF60C22BD0C454003628B0 /* RunViewModel.swift */,
 				66DF60C42BD0C546003628B0 /* PersistenceController.swift */,
-				D4C2A33F2BD6EFED00064847 /* AccountView.swift */,
-				D4C2A3412BD6F00800064847 /* HomeView.swift */,
 				6664747C2BD5F43D00303055 /* HKController.swift */,
 			);
 			path = "View Models";
@@ -347,6 +350,7 @@
 				66DF60C52BD0C546003628B0 /* PersistenceController.swift in Sources */,
 				9538F3952BD9D1C000FA5370 /* SavedRunView.swift in Sources */,
 				66DF60C02BD0C416003628B0 /* RunView.swift in Sources */,
+				D4E1FF3F2BDA0D2900C19F6A /* WeatherWidgetView.swift in Sources */,
 				66DF60C32BD0C454003628B0 /* RunViewModel.swift in Sources */,
 				D4C2A3402BD6EFED00064847 /* AccountView.swift in Sources */,
 				66DF60BC2BD0C19C003628B0 /* DataModel.xcdatamodeld in Sources */,

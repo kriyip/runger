@@ -20,11 +20,11 @@ struct ContentView: View {
             TabView {
                 // home tab
                 VStack {
-                    EmptyView()
+                    HomeView()
                 }
                 .tabItem { Label("Home", systemImage: "house") }
                 .navigationBarHidden(true)
-                .padding()
+               
                 
                 // running tab
                 VStack {
