@@ -15,6 +15,7 @@ class RunViewModel: NSObject, ObservableObject, CLLocationManagerDelegate {
     @Published var isRunning: Bool = false
     @Published var shouldSaveRun: Bool = false
     @Published var currentRun: RunModel?
+    
     @Published var position: MapCameraPosition = MapCameraPosition.region(
         MKCoordinateRegion(
             center: CLLocationCoordinate2D(latitude: 39.95145254, longitude: -75.19634140),
@@ -143,9 +144,7 @@ class RunViewModel: NSObject, ObservableObject, CLLocationManagerDelegate {
     }
 
     
-    func endRun() {
-        guard let run = currentRun else { return }
-        run.endTime = Date()
+    func resetRunViewModel() {
         isRunning = false
         currentRun = nil
     }

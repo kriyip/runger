@@ -15,6 +15,7 @@ struct MapView: UIViewRepresentable {
     @ObservedObject var locationManager: RunViewModel
     typealias UIViewType = MKMapView
     @Binding var started : Bool
+    
     var userLatitude: String {
         locationManager.lastLocation?.coordinate.latitude.description ?? "0"
     }

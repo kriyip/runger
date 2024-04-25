@@ -22,6 +22,7 @@ struct RunView: View {
     @State private var color : Color = .green
     @State private var start : Bool = true
     @State private var displayEnd: Bool = false
+    @State private var goToSaveRunView = false
     
     var startlocation : CLLocation!
     var endLocation : CLLocation!
@@ -64,8 +65,7 @@ struct RunView: View {
                     
                     if start && displayEnd {
                         Button(action: {
-                            SavedRunView()
-//                            runViewModel.endRun()
+                            goToSaveRunView = true
                         }) {
                             ZStack {
                                 Circle()
@@ -80,14 +80,13 @@ struct RunView: View {
                 
             }
         }
+        .fullScreenCover(isPresented: $goToSaveRunView) {
+            SaveRunView()
+        }
         .onAppear() {
             /// start tracking
             runViewModel.startTracking()
             runViewModel.startRun()
-        }
-        .onDisappear() {
-            /// stop tracking
-            runViewModel.endRun()
         }
     }
     

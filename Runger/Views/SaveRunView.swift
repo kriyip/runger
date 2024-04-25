@@ -7,46 +7,41 @@
 import SwiftUI
 
 struct SaveRunView: View {
-    @ObservedObject var runViewModel: RunViewModel
+    @EnvironmentObject var runViewModel: RunViewModel
     @EnvironmentObject var persistenceController: PersistenceController
     
     var body: some View {
         VStack {
             // Check if there's an ongoing run or a completed run to display
             if let run = runViewModel.currentRun {
-                if runViewModel.isRunning {
-                    // Display running stats here...
-                    Text("Run in Progress")
-                    // More dynamic stats could be added, depending on what's being tracked
-                } else {
-                    // Display the stats for a completed run
-                    Text("Run Ended")
-                    Group {
-                        // Use the properties from RunModel directly
-                        Text("Duration: \(run.totalDuration.formatAsDuration())")
-                        Text("Distance: \(run.totalDistance, specifier: "%.2f") meters")
-                        Text("Average Pace: \(run.averagePace, specifier: "%.2f") min/km")
-                    }
-                    .padding()
-                    
-                    // Button to save the run
-                    Button("Save Run") {
-                        
-                    }
-                    .padding()
-                    .background(Color.green)
-                    .foregroundColor(.white)
-                    .clipShape(Capsule())
-
-                    // Button to discard the run
-                    Button("Discard Run") {
-                        
-                    }
-                    .padding()
-                    .background(Color.red)
-                    .foregroundColor(.white)
-                    .clipShape(Capsule())
+                // Display the stats for a completed run
+                Text("Run Ended")
+                Group {
+                    // Use the properties from RunModel directly
+                    Text("Duration: \(run.totalDuration.formatAsDuration())")
+                    Text("Distance: \(run.totalDistance, specifier: "%.2f") meters")
+                    Text("Average Pace: \(run.averagePace, specifier: "%.2f") min/km")
                 }
+                .padding()
+                
+                // Button to save the run
+                Button("Save Run") {
+                    persistenceController.saveContext()
+                    runViewModel.resetRunViewModel()
+                }
+                .padding()
+                .background(Color.green)
+                .foregroundColor(.white)
+                .clipShape(Capsule())
+
+                // Button to discard the run
+                Button("Discard Run") {
+                    runViewModel.resetRunViewModel()
+                }
+                .padding()
+                .background(Color.red)
+                .foregroundColor(.white)
+                .clipShape(Capsule())
             } else {
                 Text("No run data available.")
             }
