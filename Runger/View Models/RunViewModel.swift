@@ -139,7 +139,12 @@ class RunViewModel: NSObject, ObservableObject, CLLocationManagerDelegate {
         }
         runDistances.removeAll()
         totalDistance = 0.0
+
+        // Initialize a new run using PersistenceController
+        currentRun = PersistenceController.shared.initializeRun()
+        isRunning = true
     }
+
     
     func endRun(shouldSave: Bool) {
         guard let run = currentRun else { return }
