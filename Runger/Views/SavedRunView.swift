@@ -19,17 +19,22 @@ struct SavedRunView: View {
         List {
             ForEach(runs, id: \.self) { run in
                 VStack(alignment: .leading) {
-                    Text("Run on: \(String(describing: run.startTime)).formatted(.number.precision(.fractionLength(2))))")
-
+                    if let startTime = run.startTime {
+                        Text("Run on: \(startTime, formatter: itemFormatter)")
+                    } else {
+                        Text("Run on: Unknown date")
+                    }
+                    
                     if let endTime = run.endTime, let startTime = run.startTime {
-                        Text("Duration: \((endTime.timeIntervalSince(startTime) / 60).formatted(.number.precision(.fractionLength(2)))) minutes")
+                        let durationMinutes = endTime.timeIntervalSince(startTime) / 60
+                        Text("Duration: \(durationMinutes, specifier: "%.2f") minutes")
                     }
-                    Text("Distance: \(run.totalDistance, specifier: "%.2f") m")
-                    Text("Duration: \(run.totalDuration, specifier: "%.2f)") sec")
-                    Text("Average Pace: \(run.averagePace, specifier: "%.2f") m/s")
-                    if let id = run.id {
-                        Text("Run ID: \(id.uuidString)")
-                    }
+                    Text("Distance: \(run.totalDistance, specifier: "%.2f") meters")
+                    Text("Duration: \(run.totalDuration, specifier: "%.2f") seconds")
+                    Text("Average Pace: \(run.averagePace, specifier: "%.2f") meters/second")
+                    //if let id = run.id {
+                    //    Text("Run ID: \(id.uuidString)")
+                    //}
                 }
             }
             .onDelete(perform: deleteRuns)
@@ -57,8 +62,7 @@ private let itemFormatter: DateFormatter = {
 
 struct SavedRunView_Previews: PreviewProvider {
     static var previews: some View {
-        SavedRunView()
-            .environment(\.managedObjectContext, PersistenceController.shared.container.viewContext)
+        SavedRunView().environment(\.managedObjectContext, PersistenceController.shared.container.viewContext)
     }
 }
 
