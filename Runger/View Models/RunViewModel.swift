@@ -14,7 +14,6 @@ import HealthKit
 class RunViewModel: NSObject, ObservableObject, CLLocationManagerDelegate {
     @Published var isRunning: Bool = false
     @Published var shouldSaveRun: Bool = false
-    @Published var currentRun: RunModel?
     
     @Published var position: MapCameraPosition = MapCameraPosition.region(
         MKCoordinateRegion(
@@ -139,14 +138,16 @@ class RunViewModel: NSObject, ObservableObject, CLLocationManagerDelegate {
         totalDistance = 0.0
 
         // Initialize a new run using PersistenceController
-        currentRun = PersistenceController.shared.initializeRun()
         isRunning = true
     }
 
     
     func resetRunViewModel() {
         isRunning = false
-        currentRun = nil
+        runLocations = []
+        runDistances = []
+        totalDistance = 0.0
+        currSpeed = 0.0
     }
 }
 

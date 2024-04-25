@@ -9,9 +9,8 @@ import SwiftUI
 import MapKit
 
 struct RunView: View {
-//    @Environment(\.managedObjectContext) private var context
+    @EnvironmentObject private var timer : StopWatch
     @ObservedObject var runViewModel: RunViewModel
-//    @ObservedObject var presetViewModel: PresetViewModel
 
     @State private var userPath = MKPolyline()
     @State private var showBottomSheet = false
@@ -41,7 +40,7 @@ struct RunView: View {
                 Spacer()
                 Text("Speed: \((runViewModel.currSpeed < 0) ? "0.00" : String(runViewModel.currSpeed))")
                 Text("Distance: \(runViewModel.totalDistance)")
-//                Text(self.timer.timeString).font(.system(size : 20)).padding().offset(y:10)
+                Text(timer.timeString).font(.system(size : 20)).padding().offset(y:10)
                 
                 HStack{
                     if isTapped == false {
@@ -77,7 +76,6 @@ struct RunView: View {
                         }
                     }
                 }
-                
             }
         }
         .fullScreenCover(isPresented: $goToSaveRunView) {

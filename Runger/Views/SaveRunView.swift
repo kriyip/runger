@@ -11,16 +11,19 @@ struct SaveRunView: View {
     @EnvironmentObject var persistenceController: PersistenceController
     
     var body: some View {
-        VStack {
-            // Check if there's an ongoing run or a completed run to display
-            if let run = runViewModel.currentRun {
+        NavigationView {
+            VStack {
+                // Check if there's an ongoing run or a completed run to display
                 // Display the stats for a completed run
                 Text("Run Ended")
                 Group {
                     // Use the properties from RunModel directly
-                    Text("Duration: \(run.totalDuration.formatAsDuration())")
-                    Text("Distance: \(run.totalDistance, specifier: "%.2f") meters")
-                    Text("Average Pace: \(run.averagePace, specifier: "%.2f") min/km")
+//                    Text("Duration: \(run.totalDuration.formatAsDuration())")
+//                    Text("Distance: \(run.totalDistance, specifier: "%.2f") meters")
+//                    Text("Average Pace: \(run.averagePace, specifier: "%.2f") min/km")
+//                    Text("Duration: \(runViewModel.totalDuration.formatAsDuration())")
+                    Text("Distance: \(runViewModel.totalDistance, specifier: "%.2f") meters")
+//                    Text("Average Pace: \(runViewModel.totalDistance / runViewModel.totalDuration, specifier: "%.2f") min/km")
                 }
                 .padding()
                 
@@ -36,15 +39,22 @@ struct SaveRunView: View {
 
                 // Button to discard the run
                 Button("Discard Run") {
+                    // TODO: see if there's a way to clear current context to prevent memory leaks
                     runViewModel.resetRunViewModel()
                 }
                 .padding()
                 .background(Color.red)
                 .foregroundColor(.white)
                 .clipShape(Capsule())
-            } else {
-                Text("No run data available.")
+
+                // Link to see all saved runs
+                NavigationLink(destination: SavedRunView()) {
+                    Text("See All Saved Runs")
+                        .foregroundColor(.blue)
+                        .padding()
+                }
             }
+            .navigationBarTitle("Run Details", displayMode: .inline)
         }
     }
 }
@@ -60,5 +70,10 @@ private extension Double {
     }
 }
 
-
-
+struct SaveRunView_Previews: PreviewProvider {
+    static var previews: some View {
+        SaveRunView()
+            .environmentObject(PersistenceController.shared)
+            .environmentObject(RunViewModel())
+    }
+}

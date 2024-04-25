@@ -17,6 +17,7 @@ struct RungerApp: App {
             ContentView().environment(\.managedObjectContext, persistenceController.container.viewContext)
                 .environmentObject(PersistenceController())
                 .environmentObject(RunViewModel())
+                .environmentObject(StopWatch())
         }
     }
 }
