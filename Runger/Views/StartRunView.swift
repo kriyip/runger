@@ -97,7 +97,7 @@ struct StartRunView: View {
 
 struct onTheFlyView: View {
     var body: some View {
-        Text("Normal mode to easily track your running sessions without any interruptions.")
+        Text("Use Normal mode for a simple and easy way to track your running sessions without any interruptions.")
             .font(.callout)
             .multilineTextAlignment(.center)
             .padding(.horizontal, 30)

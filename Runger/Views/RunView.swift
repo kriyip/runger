@@ -40,18 +40,20 @@ struct RunView: View {
                 Spacer()
                 Text("Speed: \((runViewModel.currSpeed < 0) ? "0.00" : String(runViewModel.currSpeed))")
                 Text("Distance: \(runViewModel.totalDistance)")
-                Text(timer.timeString).font(.system(size : 20)).padding().offset(y:10)
+                Text(self.timer.timeString).font(.system(size : 20)).padding().offset(y:10)
                 
                 HStack{
                     if isTapped == false {
                         // disable tapping if already tapped once
                     }
-                    Button(action: {if start {
-                        startrun()
-                        displayEnd = true;
-                    } else {
-                        stop()
-                    }
+                    // resume/pause button
+                    Button(action: {
+                        if self.timer.mode == .stop || self.timer.mode == .pause {
+                            self.startRun()
+                            displayEnd = true
+                        } else {
+                            self.pauseRun()
+                        }
                     }){
                         ZStack{
                             Circle()
@@ -82,30 +84,28 @@ struct RunView: View {
             SaveRunView()
         }
         .onAppear() {
-            /// start tracking
+            /// start tracking, initialize run view model for new run
+            timer.reset()
             runViewModel.startTracking()
             runViewModel.startRun()
         }
     }
     
-    func startrun(){
+    func startRun() {
         if start {
             button = "Stop"
             color = .red
         }
-//        self.timer.start()
+        self.timer.start()
         self.isTapped.toggle()
         self.start.toggle()
     }
     
-    func stop()  {
-//        self.timer.stop()
+    func pauseRun() {
+        self.timer.pause()
         self.start.toggle()
         self.isTapped.toggle()
-        
-        //runList.addRun(run:Run(distance: 5.0, timer: timer.secs, locations: locManager.coords,region: locManager))
-        button = "Resume"
-        color = .green
+        self.button = "Resume"
+        self.color = .green
     }
-    
 }

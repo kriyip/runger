@@ -273,14 +273,19 @@ class StopWatch : ObservableObject {
         }
     }
     
-    
-    func stop() {
+    func pause() {
         timer.invalidate()
-        secs = self.secondsPassed
-        self.secondsPassed = 0.0
-        self.mode = .stop
+        lastPausedTime = self.secondsPassed
+        self.mode = .pause
     }
     
+    func reset() {
+        timer.invalidate()
+        self.secondsPassed = 0.0
+        lastPausedTime = 0.0
+        timeString = "00:00"
+        self.mode = .stop
+    }
     
     func formatTimer() {
         let minutes : Int = Int(self.secondsPassed/60)

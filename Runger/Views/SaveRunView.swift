@@ -8,6 +8,7 @@ import SwiftUI
 
 struct SaveRunView: View {
     @EnvironmentObject var runViewModel: RunViewModel
+    @EnvironmentObject var timer: StopWatch
     @EnvironmentObject var persistenceController: PersistenceController
     
     var body: some View {
@@ -15,10 +16,11 @@ struct SaveRunView: View {
             VStack {
                 Text("Run Ended")
                 Text("Distance: \(String(format: "%.2f", runViewModel.totalDistance)) meters")
-                //let pace = (runViewModel.totalDuration / 60) / (runViewModel.totalDistance / 1000)
-               // Text("Average Pace: \(String(format: "%.2f", pace)) min/km")
+                Text("Duration: \(timer.timeString)")
+                Text("Average Pace: \(String(format: "%.2f", runViewModel.totalDistance / timer.secondsPassed)) min/mi")
             
                 .padding()
+                
                 Button("Save Run") {
                     persistenceController.saveContext() // Saves the current state to CoreData
                     runViewModel.resetRunViewModel() // Reset the ViewModel for new data
@@ -52,5 +54,6 @@ struct SaveRunView_Previews: PreviewProvider {
         SaveRunView()
             .environmentObject(PersistenceController.shared)
             .environmentObject(RunViewModel())
+            .environmentObject(StopWatch())
     }
 }

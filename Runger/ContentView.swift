@@ -13,7 +13,9 @@ struct ContentView: View {
     @StateObject var timer = StopWatch()
 
     var body: some View {
+        // for debugging
         Text("isRunning: \(runviewmodel.isRunning)")
+        
         if runviewmodel.isRunning {
             RunView(runViewModel: runviewmodel)
         } else {
