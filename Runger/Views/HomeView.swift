@@ -35,57 +35,47 @@ struct HomeView: View {
     private var pastActivities = ["Run 1", "Run 2", "Run 3", "Run 4", "Run 5"]
     @StateObject private var runViewModel = RunViewModel()  // Consider using @EnvironmentObject if shared across views
     @State private var isRunStarted: Bool = false
+    @State private var mockRun: Run?
+
     
+    var formattedTotalDistance: String {
+           String(format: "%.2f", runViewModel.totalDistance)
+       }
 
     
     var body: some View {
+        
+        
         NavigationView {
+            
             VStack(spacing: 20) {
-                // Titles are now outside of the boxes
-                // Weekly Snapshot Section
+                Text("Your Home")
+                    .font(.title)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .padding(EdgeInsets(top: 25, leading: 22, bottom: 0, trailing: 0))
+                
                 VStack(alignment: .leading, spacing: 16) {
-                    Text("Weekly Snapshot")
-                        .font(.headline)
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                        .padding(EdgeInsets(top: 0, leading: 5, bottom: 0, trailing: 0))
-                    
-                    HStack {
-                        VStack {
-                            Text("Total mi")
-                            Text(totalMiles)
-                        }
-                        .frame(maxWidth: .infinity)
-                        
-                        // Vertical Divider
-                        Rectangle()
-                            .fill(Color.secondary)
-                            .frame(width: 1)
-                            .padding(.vertical, 19)
-                        
-                        VStack {
-                            Text("Total Time")
-                            Text(totalTime)
-                        }
-                        .frame(maxWidth: .infinity)
-                        
-                        // Vertical Divider
-                        Rectangle()
-                            .fill(Color.secondary)
-                            .frame(width: 1)
-                            .padding(.vertical, 19)
-                        
-                        VStack {
-                            Text("# Activity")
-                            Text("\(numberOfRuns)")
-                        }
-                        .frame(maxWidth: .infinity)
-                    }
-                    .padding(.horizontal)
-                    .frame(height: 100) // This ensures the height is consistent.
-                    .background(Color.gray.opacity(0.1))
-                    .cornerRadius(10)
-                }
-                .padding(.horizontal)
+                                    Text("Weekly Snapshot")
+                                        .font(.headline)
+                                        .frame(maxWidth: .infinity, alignment: .leading)
+                                        .padding(EdgeInsets(top: 10, leading: 5, bottom: 0, trailing: 0))
+                                    
+                                    HStack {
+                                        snapshotBox(title: "Total Metres", value: formattedTotalDistance)
+                                        Divider().background(Color.secondary)
+                                        snapshotBox(title: "Total Time", value: runViewModel.totalTime)
+                                        Divider().background(Color.secondary)
+                                        snapshotBox(title: "No. of Runs", value: "\(runViewModel.numberOfRuns)")
+                                    }
+                                    .padding(.horizontal)
+                                    .frame(height: 100)
+                                    .background(Color.gray.opacity(0.1))
+                                    .cornerRadius(10)
+                                }
+                                .padding(.horizontal)
+                                .onAppear {
+                                    runViewModel.fetchWeeklySnapshot()
+                                }
                     
 
                 // Location Weather Section
@@ -101,16 +91,23 @@ struct HomeView: View {
                 
                
                     
-                    Text("Last Run ")
-                        .font(.headline)
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                        .padding(.leading)
-                VStack(alignment: .center, spacing: 16) {
-                    MapView(locationManager: runViewModel, started: $isRunStarted)
-                        .frame(height: 200) // Specify a height for the map view
-                        .cornerRadius(15)
-                        .padding(.horizontal)
-                }
+                // Displaying the last run
+                Text("Last Run")
+                    .font(.headline)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .padding(.leading)
+
+                // Using RunMapView to display the last run's map
+                // Conditional rendering based on availability of lastRun
+                                if let lastRun = runViewModel.lastRun {
+                                    RunMapView(run: lastRun)
+                                        .frame(height: 280)
+                                        .cornerRadius(15)
+                                        .padding(.horizontal)
+                                } else {
+                                    Text("No recent runs available.")
+                                        .padding()
+                                }
                     
                     // Past Activities Carousel
 //                    ScrollView(.horizontal, showsIndicators: false) {
@@ -125,9 +122,24 @@ struct HomeView: View {
                     
                     Spacer()
                 }
-                .navigationBarTitle("Home", displayMode: .inline)
+//                .navigationBarTitle("Home", displayMode: .inline)
+                .onAppear {
+                    runViewModel.fetchLastRun()  
+                    runViewModel.fetchWeeklySnapshot()
+                }
+                
                 
             }
+        }
+    
+    @ViewBuilder
+        private func snapshotBox(title: String, value: String) -> some View {
+            VStack {
+                Text(title)
+                Text(value)
+                    .bold()
+            }
+            .frame(maxWidth: .infinity)
         }
     }
 

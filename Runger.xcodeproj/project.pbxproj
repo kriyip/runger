@@ -28,6 +28,8 @@
 		D4C2A3402BD6EFED00064847 /* AccountView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C2A33F2BD6EFED00064847 /* AccountView.swift */; };
 		D4C2A3422BD6F00800064847 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C2A3412BD6F00800064847 /* HomeView.swift */; };
 		D4E1FF3F2BDA0D2900C19F6A /* WeatherWidgetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4E1FF3E2BDA0D2900C19F6A /* WeatherWidgetView.swift */; };
+		D4E1FF412BDAA23F00C19F6A /* GraphView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4E1FF402BDAA23F00C19F6A /* GraphView.swift */; };
+		D4E1FF432BDAB0C100C19F6A /* RunMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4E1FF422BDAB0C100C19F6A /* RunMapView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -74,6 +76,8 @@
 		D4C2A33F2BD6EFED00064847 /* AccountView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountView.swift; sourceTree = "<group>"; };
 		D4C2A3412BD6F00800064847 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		D4E1FF3E2BDA0D2900C19F6A /* WeatherWidgetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherWidgetView.swift; sourceTree = "<group>"; };
+		D4E1FF402BDAA23F00C19F6A /* GraphView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphView.swift; sourceTree = "<group>"; };
+		D4E1FF422BDAB0C100C19F6A /* RunMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RunMapView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -183,6 +187,8 @@
 				668C35792BD86398003085EB /* MapView.swift */,
 				6659D9942BC871D30004FC61 /* ContentView.swift */,
 				D4E1FF3E2BDA0D2900C19F6A /* WeatherWidgetView.swift */,
+				D4E1FF402BDAA23F00C19F6A /* GraphView.swift */,
+				D4E1FF422BDAB0C100C19F6A /* RunMapView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -353,6 +359,8 @@
 				D4E1FF3F2BDA0D2900C19F6A /* WeatherWidgetView.swift in Sources */,
 				66DF60C32BD0C454003628B0 /* RunViewModel.swift in Sources */,
 				D4C2A3402BD6EFED00064847 /* AccountView.swift in Sources */,
+				D4E1FF432BDAB0C100C19F6A /* RunMapView.swift in Sources */,
+				D4E1FF412BDAA23F00C19F6A /* GraphView.swift in Sources */,
 				66DF60BC2BD0C19C003628B0 /* DataModel.xcdatamodeld in Sources */,
 				6659D9932BC871D30004FC61 /* RungerApp.swift in Sources */,
 				66DF60BE2BD0C405003628B0 /* StartRunView.swift in Sources */,

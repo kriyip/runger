@@ -31,6 +31,11 @@ class RunViewModel: NSObject, ObservableObject, CLLocationManagerDelegate {
     @Published var totalDistance: CLLocationDistance = 0.0
     @Published var currSpeed : CLLocationSpeed = 0.0
     
+    @Published var totalMeters: Double = 0.0
+    @Published var totalTime: String = "00:00:00" // Time as a string
+    @Published var numberOfRuns: Int = 0
+    @Published var lastRun: Run?
+    
     var routeBuilder: HKWorkoutRouteBuilder?
     var locations: [CLLocation] = []
         
@@ -148,8 +153,85 @@ class RunViewModel: NSObject, ObservableObject, CLLocationManagerDelegate {
         run.endTime = Date()
         isRunning = false
         currentRun = nil
+        
+        updateLastRun()
     }
+    
+    func updateLastRun() {
+        let runs = PersistenceController.shared.getResults()
+        if let mostRecentRun = runs.first {
+            let distance = mostRecentRun.totalDistance
+            let duration = calculateDuration(run: mostRecentRun)
+            let locations = self.runLocations  // This needs to correctly reflect locations from the most recent run
+
+            self.lastRun = Run(distance: distance, timer: duration, locations: locations)
+        }
+    }
+    
+    private func calculateDuration(run: RunModel) -> Double {
+        guard let start = run.startTime, let end = run.endTime else { return 0 }
+        return end.timeIntervalSince(start)
+    }
+    
+    func fetchWeeklySnapshot() {
+           let runs = PersistenceController.shared.getResults()
+        _ = runs.reduce(0.0) { $0 + $1.totalDistance }
+        let totalTime = runs.reduce(0.0) { $0 + calculateDuration(run: $1) }
+           let numberOfRuns = runs.count
+
+           DispatchQueue.main.async {
+               self.totalMeters = self.totalMeters
+               self.totalTime = self.formatDuration(totalTime)
+               self.numberOfRuns = numberOfRuns
+           }
+       }
+       
+       private func formatDuration(_ totalSeconds: Double) -> String {
+           let hours = Int(totalSeconds / 3600)
+           let minutes = Int(totalSeconds.truncatingRemainder(dividingBy: 3600) / 60)
+           let seconds = Int(totalSeconds.truncatingRemainder(dividingBy: 60))
+           return String(format: "%02d:%02d:%02d", hours, minutes, seconds)
+       }
+    
+    func fetchLastRun() {
+        let runs = PersistenceController.shared.getResults()
+        if let firstRun = runs.first {
+            let distance = firstRun.totalDistance  // Assuming RunModel has totalDistance
+            let duration = calculateDuration(run: firstRun)  // Ensure this method calculates correctly
+            let locations = self.runLocations 
+
+            // Now create the Run object
+            self.lastRun = Run(distance: distance, timer: duration, locations: locations)
+        }
+    }
+    
+    func createMockRun() -> Run {
+        let locations = createMockLocations()
+        return Run(distance: 5000.0, timer: 1800.0, locations: locations)
+    }
+
+    // Helper function to create a list of CLLocation objects
+    private func createMockLocations() -> [CLLocation?] {
+        let coordinates = [
+            CLLocationCoordinate2D(latitude: 37.7749, longitude: -122.4194),  // Example coordinates
+            CLLocationCoordinate2D(latitude: 37.7750, longitude: -122.4184),
+            CLLocationCoordinate2D(latitude: 37.7751, longitude: -122.4174)
+        ]
+        return coordinates.map { CLLocation(latitude: $0.latitude, longitude: $0.longitude) }
+    }
+    
+    // In RunViewModel
+    func loadMockRun() {
+        self.lastRun = createMockRun()
+    }
+
+
+
+
+
 }
+
+
 
 class PresetViewModel: ObservableObject {
     @Published var presets: [PresetInterval] = []

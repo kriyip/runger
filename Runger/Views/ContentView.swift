@@ -13,7 +13,7 @@ struct ContentView: View {
     @StateObject var timer = StopWatch()
 
     var body: some View {
-        Text("isRunning: \(runviewmodel.isRunning)")
+       // Text("isRunning: \(runviewmodel.isRunning)")
         if runviewmodel.isRunning {
             RunView(runViewModel: runviewmodel)
         } else {
@@ -34,7 +34,7 @@ struct ContentView: View {
                 .navigationBarHidden(true).environmentObject(timer)
                 
                 VStack {
-                    EmptyView()
+                    AccountView(runViewModel: runviewmodel, stopwatch: timer)
                 }
                 .tabItem{Label("Account", systemImage: "person")}
                 .navigationBarHidden(true).environmentObject(timer)
