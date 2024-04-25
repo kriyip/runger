@@ -29,8 +29,7 @@ struct RunView: View {
     var body: some View {
         ZStack {
             MapView(locationManager: runViewModel, started: $isTapped)
-//                .ignoresSafeArea(.all)
-                .frame(maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/, maxHeight: .infinity)
+                .ignoresSafeArea(.all)
             VStack {
                 if !start {
                     Text("Running")
@@ -45,7 +44,7 @@ struct RunView: View {
                 
                 HStack{
                     if isTapped == false {
-                        // if tapped once then disable tapping again
+                        // disable tapping if already tapped once
                     }
                     Button(action: {if start {
                         startrun()
@@ -65,7 +64,8 @@ struct RunView: View {
                     
                     if start && displayEnd {
                         Button(action: {
-                            runViewModel.endRun(shouldSave: false)
+                            SavedRunView()
+//                            runViewModel.endRun()
                         }) {
                             ZStack {
                                 Circle()
@@ -77,16 +77,17 @@ struct RunView: View {
                         }
                     }
                 }
+                
             }
         }
         .onAppear() {
             /// start tracking
             runViewModel.startTracking()
-//            runViewModel.startRun()/
+            runViewModel.startRun()
         }
         .onDisappear() {
             /// stop tracking
-            runViewModel.endRun(shouldSave: false)
+            runViewModel.endRun()
         }
     }
     
@@ -106,59 +107,8 @@ struct RunView: View {
         self.isTapped.toggle()
         
         //runList.addRun(run:Run(distance: 5.0, timer: timer.secs, locations: locManager.coords,region: locManager))
-        button = "Start"
+        button = "Resume"
         color = .green
     }
     
 }
-
-//struct MapView: UIViewRepresentable {
-//    @Binding var route: MKPolyline
-//    
-//    func makeUIView(context: Context) -> MKMapView {
-//        let mapView = MKMapView()
-//        mapView.delegate = context.coordinator
-//        return mapView
-//    }
-//    
-//    func updateUIView(_ uiView: MKMapView, context: Context) {
-//        uiView.removeOverlays(uiView.overlays)
-//        uiView.addOverlay(route)
-//    }
-//    
-//    func makeCoordinator() -> Coordinator {
-//        Coordinator(self)
-//    }
-//    
-//    class Coordinator: NSObject, MKMapViewDelegate {
-//        var parent: MapView
-//        
-//        init(_ parent: MapView) {
-//            self.parent = parent
-//        }
-//        
-//        func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
-//            if let routePolyline = overlay as? MKPolyline {
-//                let renderer = MKPolylineRenderer(polyline: routePolyline)
-//                renderer.strokeColor = .blue
-//                renderer.lineWidth = 5
-//                return renderer
-//            }
-//            return MKOverlayRenderer()
-//        }
-//    }
-//}
-
-
-
-//struct RunView_Previews: PreviewProvider {
-//
-//    static var previews: some View {
-//        let vm = PresetViewModel()
-//        vm.addDistance(1.0)
-//        vm.addTime(99)
-//        vm.addDistance(2.2)
-//        
-//        return RunView(runViewModel: RunViewModel(context: PersistenceController.shared.container.viewContext), presetViewModel: vm)
-//    }
-//}

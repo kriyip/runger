@@ -33,9 +33,7 @@ class RunViewModel: NSObject, ObservableObject, CLLocationManagerDelegate {
     
     var routeBuilder: HKWorkoutRouteBuilder?
     var locations: [CLLocation] = []
-    
-//    var currentRun: RunModel?
-    
+        
     let locationManager = CLLocationManager()
     private var isRequestingLocation = false
     
@@ -102,7 +100,7 @@ class RunViewModel: NSObject, ObservableObject, CLLocationManagerDelegate {
         runLocations.append(lastLocation)
         
         let locationsCount = runLocations.count
-        if (locationsCount > 1){
+        if (locationsCount > 1) {
             self.currSpeed = location.speed
             let newDist = lastLocation?.distance(from:( runLocations[locationsCount - 2] ?? lastLocation)!)
             runDistances.append(newDist)
@@ -129,7 +127,6 @@ class RunViewModel: NSObject, ObservableObject, CLLocationManagerDelegate {
     }
     
     /// RUN LOGIC RELATED FUNCTIONS
-    
     func startRun() {
         let locationsCount = runLocations.count
         if locationsCount > 1 {
@@ -141,7 +138,7 @@ class RunViewModel: NSObject, ObservableObject, CLLocationManagerDelegate {
         totalDistance = 0.0
     }
     
-    func endRun(shouldSave: Bool) {
+    func endRun() {
         guard let run = currentRun else { return }
         run.endTime = Date()
         isRunning = false
