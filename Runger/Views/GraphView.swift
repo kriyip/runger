@@ -56,10 +56,10 @@ struct GraphView: View {
                 .stroke(Color.black, lineWidth: 1)
                 
                 // Labels
-                Text("Miles")
+                Text("Meters")
                     .font(.caption)
                     .rotationEffect(.degrees(-90))
-                    .offset(x: -15, y:  2)
+                    .offset(x: -19, y:  -7)
                 
                 Text("Date")
                     .font(.caption)

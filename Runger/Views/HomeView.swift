@@ -101,7 +101,7 @@ struct HomeView: View {
                 // Conditional rendering based on availability of lastRun
                                 if let lastRun = runViewModel.lastRun {
                                     RunMapView(run: lastRun)
-                                        .frame(height: 280)
+                                        .frame(height: 220)
                                         .cornerRadius(15)
                                         .padding(.horizontal)
                                 } else {
@@ -124,7 +124,7 @@ struct HomeView: View {
                 }
 //                .navigationBarTitle("Home", displayMode: .inline)
                 .onAppear {
-                    runViewModel.fetchLastRun()  
+                    runViewModel.fetchLastRun()
                     runViewModel.fetchWeeklySnapshot()
                 }
                 
