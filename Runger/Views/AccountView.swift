@@ -53,6 +53,19 @@ struct AccountView: View {
                         }
                     }
                     
+                    // Button to view detailed run
+                    NavigationLink(destination: SavedRunView()) {
+                        Text("View Saved Runs")
+                            .foregroundColor(.white)
+                            .padding()
+                            .background(Color.blue)
+                            .cornerRadius(8)
+                    }
+                    .padding()
+                    
+                    
+                   // SavedRunView()
+                    
                   
                 }
             }

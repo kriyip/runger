@@ -36,14 +36,15 @@ struct ContentView: View {
                 .navigationBarHidden(true).environmentObject(timer)
                 
                 VStack {
-                    NavigationStack {
-                        NavigationLink(destination: SavedRunView()) {
-                            Text("See All Saved Runs")
-                                .foregroundColor(.blue)
-                                .padding()
-                        }
-                    }
-                    //AccountView(runViewModel: runviewmodel, stopwatch: timer)
+//                    NavigationStack {
+//                        NavigationLink(destination: SavedRunView()) {
+//                            Text("See All Saved Runs")
+//                                .foregroundColor(.blue)
+//                                .padding()
+//                        }
+//                    }
+                    AccountView(runViewModel: runviewmodel, stopwatch: timer)
+                    
                 }
                 .tabItem{Label("Account", systemImage: "person")}
                 .navigationBarHidden(true).environmentObject(timer)

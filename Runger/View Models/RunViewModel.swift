@@ -153,7 +153,7 @@ class RunViewModel: NSObject, ObservableObject, CLLocationManagerDelegate {
         runDistances = []
         totalDistance = 0.0
         currSpeed = 0.0
-        currentRun = nil
+       // currentRun = nil
         
         updateLastRun()
     }

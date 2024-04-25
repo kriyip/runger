@@ -101,7 +101,7 @@ struct HomeView: View {
                 // Conditional rendering based on availability of lastRun
                                 if let lastRun = runViewModel.lastRun {
                                     RunMapView(run: lastRun)
-                                        .frame(height: 220)
+                                        .frame(height: 200)
                                         .cornerRadius(15)
                                         .padding(.horizontal)
                                 } else {
