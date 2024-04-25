@@ -13,41 +13,29 @@ struct SaveRunView: View {
     var body: some View {
         NavigationView {
             VStack {
-                // Check if there's an ongoing run or a completed run to display
-                // Display the stats for a completed run
                 Text("Run Ended")
-                Group {
-                    // Use the properties from RunModel directly
-//                    Text("Duration: \(run.totalDuration.formatAsDuration())")
-//                    Text("Distance: \(run.totalDistance, specifier: "%.2f") meters")
-//                    Text("Average Pace: \(run.averagePace, specifier: "%.2f") min/km")
-//                    Text("Duration: \(runViewModel.totalDuration.formatAsDuration())")
-                    Text("Distance: \(runViewModel.totalDistance, specifier: "%.2f") meters")
-//                    Text("Average Pace: \(runViewModel.totalDistance / runViewModel.totalDuration, specifier: "%.2f") min/km")
-                }
+                Text("Distance: \(String(format: "%.2f", runViewModel.totalDistance)) meters")
+                //let pace = (runViewModel.totalDuration / 60) / (runViewModel.totalDistance / 1000)
+               // Text("Average Pace: \(String(format: "%.2f", pace)) min/km")
+            
                 .padding()
-                
-                // Button to save the run
                 Button("Save Run") {
-                    persistenceController.saveContext()
-                    runViewModel.resetRunViewModel()
+                    persistenceController.saveContext() // Saves the current state to CoreData
+                    runViewModel.resetRunViewModel() // Reset the ViewModel for new data
                 }
                 .padding()
                 .background(Color.green)
                 .foregroundColor(.white)
                 .clipShape(Capsule())
 
-                // Button to discard the run
                 Button("Discard Run") {
-                    // TODO: see if there's a way to clear current context to prevent memory leaks
-                    runViewModel.resetRunViewModel()
+                    runViewModel.resetRunViewModel() // Clears the current run data without saving
                 }
                 .padding()
                 .background(Color.red)
                 .foregroundColor(.white)
                 .clipShape(Capsule())
-
-                // Link to see all saved runs
+                
                 NavigationLink(destination: SavedRunView()) {
                     Text("See All Saved Runs")
                         .foregroundColor(.blue)
@@ -56,17 +44,6 @@ struct SaveRunView: View {
             }
             .navigationBarTitle("Run Details", displayMode: .inline)
         }
-    }
-}
-
-// Helper extension to format total duration as a duration string
-private extension Double {
-    func formatAsDuration() -> String {
-        let duration = Int(self)
-        let hours = duration / 3600
-        let minutes = (duration % 3600) / 60
-        let seconds = duration % 60
-        return String(format: "%02d:%02d:%02d", hours, minutes, seconds)
     }
 }
 

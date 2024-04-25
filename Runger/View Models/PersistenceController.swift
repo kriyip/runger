@@ -32,6 +32,7 @@ class PersistenceController: ObservableObject {
     }
     
     private func saveContext(context: NSManagedObjectContext) {
+        //print("Saveing context")
         if context.hasChanges {
             do {
                 try context.save()

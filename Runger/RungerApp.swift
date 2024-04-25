@@ -14,10 +14,12 @@ struct RungerApp: App {
 
     var body: some Scene {
         WindowGroup {
-            ContentView().environment(\.managedObjectContext, persistenceController.container.viewContext)
-                .environmentObject(PersistenceController())
+            ContentView()
+                .environment(\.managedObjectContext, persistenceController.container.viewContext)
+                .environmentObject(persistenceController)
                 .environmentObject(RunViewModel())
                 .environmentObject(StopWatch())
         }
+
     }
 }
