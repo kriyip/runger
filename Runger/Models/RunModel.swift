@@ -78,6 +78,7 @@ struct Run{ // maybe add Hashable protocol
         self.timer = timer
         self.locations = locations
     }
+    
 }
 
 extension Run{
@@ -101,6 +102,22 @@ extension Run{
         return locs
         
     }
+    
+    func toRun() -> Run {
+            // Extract necessary properties from RunModel
+            let distance = self.distance
+            let timer = self.timer
+            let locations = self.toLocations() // Assuming you have a method to get locations
+            
+            // Initialize and return a Run object
+            return Run(distance: distance, timer: timer, locations: locations)
+        }
+        
+    
+    func toLocations() -> [CLLocation] {
+           // Filter out nil values and unwrap the CLLocation? values
+           return locations.compactMap { $0 }
+       }
     
     
     
@@ -208,6 +225,11 @@ extension Run{
             return 0.1
         }
     }
+    
+
+
+
+
 }
 
 struct latlong : Codable {

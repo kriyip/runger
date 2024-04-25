@@ -98,4 +98,31 @@ class PersistenceController: ObservableObject {
     }
 }
 
+extension PersistenceController {
+    static func previewContainer() -> NSPersistentContainer {
+        let controller = PersistenceController(inMemory: true)
+        let viewContext = controller.container.viewContext
+        
+        // Create mock RunModel data
+        for _ in 0..<10 {
+            let runModel = RunModel(context: viewContext)
+            runModel.id = UUID()
+            runModel.startTime = Date()
+            runModel.totalDistance = Double.random(in: 1000...5000)
+        }
+        
+        // Save mock data
+        do {
+            try viewContext.save()
+        } catch {
+            // Handle any errors appropriately in your app
+            let nsError = error as NSError
+            fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
+        }
+        
+        return controller.container
+    }
+}
+
+
 

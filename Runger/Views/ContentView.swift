@@ -22,11 +22,11 @@ struct ContentView: View {
             TabView {
                 // home tab
                 VStack {
-                    EmptyView()
+                    HomeView()
                 }
                 .tabItem { Label("Home", systemImage: "house") }
                 .navigationBarHidden(true)
-                .padding()
+               
                 
                 // running tab
                 VStack {
@@ -43,6 +43,7 @@ struct ContentView: View {
                                 .padding()
                         }
                     }
+                    //AccountView(runViewModel: runviewmodel, stopwatch: timer)
                 }
                 .tabItem{Label("Account", systemImage: "person")}
                 .navigationBarHidden(true).environmentObject(timer)
