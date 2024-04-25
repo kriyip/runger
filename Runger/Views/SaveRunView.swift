@@ -49,12 +49,6 @@ struct SaveRunView: View {
                 .background(Color.red)
                 .foregroundColor(.white)
                 .clipShape(Capsule())
-                
-//                NavigationLink(destination: SavedRunView()) {
-//                    Text("See All Saved Runs")
-//                        .foregroundColor(.blue)
-//                        .padding()
-//                }
             }
             .navigationBarTitle("Run Details", displayMode: .inline)
         }

@@ -36,7 +36,9 @@ class PersistenceController: ObservableObject {
     private func saveContext(context: NSManagedObjectContext) {
         //print("Saveing context")
         if context.hasChanges {
+            print("saving context")
             do {
+                print("saving context")
                 try context.save()
             } catch {
                 let nsError = error as NSError
@@ -75,17 +77,23 @@ class PersistenceController: ObservableObject {
     }
     
     func initializeRun() {
-        let currentRun = RunModel(context: container.viewContext)
-        currentRun.id = UUID()
-        currentRun.startTime = Date()
+        currentRun = RunModel(context: container.viewContext)
+        currentRun?.id = UUID()
+        currentRun?.startTime = Date()
+        print("current run: \(String(describing: currentRun))")
     }
     
     func saveRun(distance: Double, duration: Double) {
-        guard let currentRun else { return }
+        print("in save run")
+        guard let currentRun else {
+            print("current run?? \(String(describing: currentRun))")
+            return
+        }
         currentRun.endTime = Date()
         currentRun.totalDistance = distance // meters
         currentRun.totalDuration = duration // seconds
         currentRun.averagePace = distance / duration // m/s
+        print("distance: \(distance), duration: \(duration)")
         saveContext()
     }
 }
