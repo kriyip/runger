@@ -5,23 +5,30 @@
 //  Created by Teena Bhatia on 22/4/24.
 //
 
-import Foundation
 import SwiftUI
 
 struct AccountView: View {
+    @State private var topFastestRuns: [RunModel] = []
+
     var body: some View {
         NavigationView {
             VStack {
-                //  GraphView()
-                //            List {
-                //                NavigationLink(destination: SavedRunView()) {
-                //                    Text("Run on [Date]")
-                //                }
-                //            }
+                List(topFastestRuns, id: \.self) { run in
+                    if let runId = run.id {
+                        Text("Run ID: \(runId.uuidString)")
+                    }
+                }
                 Spacer()
             }
             .navigationBarTitle("Account", displayMode: .inline)
+            .onAppear {
+                loadTopFastestRuns()
+            }
         }
+    }
+
+    private func loadTopFastestRuns() {
+        topFastestRuns = PersistenceController.shared.getTopFastestRuns()
     }
 }
 
