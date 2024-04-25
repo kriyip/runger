@@ -14,7 +14,6 @@
 		6659D9A42BC871D40004FC61 /* RungerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6659D9A32BC871D40004FC61 /* RungerTests.swift */; };
 		6659D9AE2BC871D40004FC61 /* RungerUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6659D9AD2BC871D40004FC61 /* RungerUITests.swift */; };
 		6659D9B02BC871D40004FC61 /* RungerUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6659D9AF2BC871D40004FC61 /* RungerUITestsLaunchTests.swift */; };
-		666474772BD551F900303055 /* BottomSheet in Frameworks */ = {isa = PBXBuildFile; productRef = 666474762BD551F900303055 /* BottomSheet */; };
 		6664747B2BD5F31600303055 /* RunModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6664747A2BD5F31600303055 /* RunModel.swift */; };
 		6664747D2BD5F43D00303055 /* HKController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6664747C2BD5F43D00303055 /* HKController.swift */; };
 		666474802BD5F4B000303055 /* CLLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6664747F2BD5F4B000303055 /* CLLocation.swift */; };
@@ -80,7 +79,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				666474772BD551F900303055 /* BottomSheet in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -221,7 +219,6 @@
 			);
 			name = Runger;
 			packageProductDependencies = (
-				666474762BD551F900303055 /* BottomSheet */,
 			);
 			productName = Runger;
 			productReference = 6659D98F2BC871D30004FC61 /* Runger.app */;
@@ -713,14 +710,6 @@
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
-
-/* Begin XCSwiftPackageProductDependency section */
-		666474762BD551F900303055 /* BottomSheet */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 666474752BD5504300303055 /* XCRemoteSwiftPackageReference "BottomSheet" */;
-			productName = BottomSheet;
-		};
-/* End XCSwiftPackageProductDependency section */
 
 /* Begin XCVersionGroup section */
 		66DF60BA2BD0C19C003628B0 /* DataModel.xcdatamodeld */ = {

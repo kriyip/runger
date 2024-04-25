@@ -38,7 +38,6 @@ class RunViewModel: NSObject, ObservableObject, CLLocationManagerDelegate {
     
     let locationManager = CLLocationManager()
     private var isRequestingLocation = false
-//    let context: NSManagedObjectContext
     
     override init() {
         super.init()
@@ -73,7 +72,7 @@ class RunViewModel: NSObject, ObservableObject, CLLocationManagerDelegate {
         position = MapCameraPosition.region(
             MKCoordinateRegion(
                 center: CLLocationCoordinate2D(latitude: latitude, longitude: longitude),
-                span: MKCoordinateSpan(latitudeDelta: 1, longitudeDelta: 1)
+                span: MKCoordinateSpan(latitudeDelta: 0.5, longitudeDelta: 0.5)
             )
         )
     }
@@ -130,13 +129,6 @@ class RunViewModel: NSObject, ObservableObject, CLLocationManagerDelegate {
     }
     
     /// RUN LOGIC RELATED FUNCTIONS
-//    private func saveContext() {
-//        do {
-//            try context.save()
-//        } catch {
-//            print("Failed to save context: \(error)")
-//        }
-//    }
     
     func startRun() {
         let locationsCount = runLocations.count
@@ -147,29 +139,14 @@ class RunViewModel: NSObject, ObservableObject, CLLocationManagerDelegate {
         }
         runDistances.removeAll()
         totalDistance = 0.0
-
-//        let newRun = RunModel(context: context)
-//        newRun.id = UUID()
-//        newRun.startTime = Date()
-//        currentRun = newRun
-//        isRunning = true
-//        saveContext()
     }
     
     func endRun(shouldSave: Bool) {
         guard let run = currentRun else { return }
         run.endTime = Date()
         isRunning = false
-        if (shouldSave) {
-//            saveContext()
-        } else {
-//            context.delete(run)
-//            saveContext()
-        }
         currentRun = nil
     }
-    
-    
 }
 
 class PresetViewModel: ObservableObject {

@@ -9,7 +9,7 @@ import Foundation
 import CoreData
 
 
-struct PersistenceController {
+class PersistenceController: ObservableObject {
     static let shared = PersistenceController()
     let container: NSPersistentContainer
     
@@ -28,5 +28,14 @@ struct PersistenceController {
             }
         })
     }
+    
+    private func saveContext(context: NSManagedObjectContext) {
+        do {
+            try context.save()
+        } catch {
+            print("Failed to save context: \(error)")
+        }
+    }
+
 }
 

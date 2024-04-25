@@ -8,6 +8,7 @@ import SwiftUI
 
 struct SaveRunView: View {
     @ObservedObject var runViewModel: RunViewModel
+    @EnvironmentObject var persistenceController: PersistenceController
     
     var body: some View {
         VStack {
@@ -30,7 +31,7 @@ struct SaveRunView: View {
                     
                     // Button to save the run
                     Button("Save Run") {
-                        $runViewModel.saveContext
+                        
                     }
                     .padding()
                     .background(Color.green)

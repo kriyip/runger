@@ -7,7 +7,6 @@
 
 import SwiftUI
 import MapKit
-import BottomSheet
 
 struct RunView: View {
 //    @Environment(\.managedObjectContext) private var context
@@ -22,6 +21,7 @@ struct RunView: View {
     @State private var button : String = "Start"
     @State private var color : Color = .green
     @State private var start : Bool = true
+    @State private var displayEnd: Bool = false
     
     var startlocation : CLLocation!
     var endLocation : CLLocation!
@@ -49,6 +49,7 @@ struct RunView: View {
                     }
                     Button(action: {if start {
                         startrun()
+                        displayEnd = true;
                     } else {
                         stop()
                     }
@@ -62,15 +63,15 @@ struct RunView: View {
                         }.padding()
                     }
                     
-                    if start {
+                    if start && displayEnd {
                         Button(action: {
                             runViewModel.endRun(shouldSave: false)
                         }) {
                             ZStack {
                                 Circle()
-                                    .fill()
+                                    .fill(Color.red)
                                     .frame(width: /*@START_MENU_TOKEN@*/100/*@END_MENU_TOKEN@*/, height: 100)
-                                Text(button)
+                                Text("End")
                                     .foregroundColor(Color.white)
                             }
                         }
