@@ -67,7 +67,6 @@ struct MapView: UIViewRepresentable {
         } else {
             if (startedRunning) {
                 startedRunning = false
-                
                 // don't remove overlays when paused
 //                let overlays = uiView.overlays
 //                uiView.removeOverlays(overlays)                

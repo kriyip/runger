@@ -27,82 +27,77 @@ struct StartRunView: View {
     @Environment(\.managedObjectContext) private var context
     @StateObject var runViewModel: RunViewModel
     
-    @State var isStarted: Bool = false
+//    @State var isStarted: Bool = false
     @State var selectedMode: RunMode = .onTheFly
     @State private var distance: Double = 0
     @State private var time: Double = 0
     var presetViewModel = PresetViewModel()
     
     var body: some View {
-        if (isStarted) {
-            // getting just preset running mode to work first
-            RunView(runViewModel: runViewModel)
-        } else {
-            GeometryReader { geometry in
-                ZStack {
-                    Map(position: $runViewModel.position)
-                        .edgesIgnoringSafeArea(.all)
-                    
-                    Color.black.opacity(0.25)
-                        .edgesIgnoringSafeArea(.all)
-                        .transition(.opacity)
+        GeometryReader { geometry in
+            ZStack {
+                Map(position: $runViewModel.position)
+                    .edgesIgnoringSafeArea(.all)
+                
+                Color.black.opacity(0.25)
+                    .edgesIgnoringSafeArea(.all)
+                    .transition(.opacity)
+                
+                VStack {
+                    Spacer()
                     
                     VStack {
-                        Spacer()
+                        Text("Start Run")
+                            .font(.headline)
+                            .padding(.top)
                         
-                        VStack {
-                            Text("Start Run")
-                                .font(.headline)
-                                .padding(.top)
-                            
-                            Picker("Mode", selection: $selectedMode) {
-                                Text("On-the-Fly").tag(RunMode.onTheFly)
-                                Text("Preset").tag(RunMode.preset)
-                            }
-                            .pickerStyle(SegmentedPickerStyle())
-                            .padding()
-                            
-                            if selectedMode == .onTheFly {
-                                onTheFlyView()
-                            } else {
-                                presetView(presetViewModel: presetViewModel)
-                            }
-                                                                
-                        }.padding()
-                        .padding(.horizontal)
-                        .background(Color.white.opacity(0.8).cornerRadius(15))
-                        .frame(width: geometry.size.width * 0.9)
-                        
-                        Spacer()
-                        Button("Start Run") {
-                            runViewModel.isRunning = true
-                            isStarted = true
+                        Picker("Mode", selection: $selectedMode) {
+                            Text("On-the-Fly").tag(RunMode.onTheFly)
+                            Text("Preset").tag(RunMode.preset)
                         }
-                        .foregroundColor(.white)
-                        .frame(minWidth: 0, maxWidth: 150)
+                        .pickerStyle(SegmentedPickerStyle())
                         .padding()
-                        .background(Color.blue)
-                        .cornerRadius(15)
-                        .padding()
+                        
+                        if selectedMode == .onTheFly {
+                            onTheFlyView()
+                        } else {
+                            presetView(presetViewModel: presetViewModel)
+                        }
+                                                            
+                    }.padding()
+                    .padding(.horizontal)
+                    .background(Color.white.opacity(0.8).cornerRadius(15))
+                    .frame(width: geometry.size.width * 0.9)
+                    
+                    Spacer()
+                    Button("Start Run") {
+                        runViewModel.isRunning = true
                     }
+                    .foregroundColor(.white)
+                    .frame(minWidth: 0, maxWidth: 150)
+                    .padding()
+                    .background(selectedMode == .preset ? Color.secondary : Color.blue)
+                    .cornerRadius(15)
+                    .padding()
+                    .disabled(selectedMode == .preset)
                 }
             }
         }
-        
     }
+    
     private func getDynamicVStackHeight() -> CGFloat {
-            // calculate the height of the VStack content dynamically
-            // based on the number of intervals or other content you have.
-            let baseHeight: CGFloat = 200 // Base height for picker and buttons
-            let intervalHeight: CGFloat = 50 // Approximate height per interval row
-            let intervalCount = CGFloat(presetViewModel.presets.count) // Number of intervals
-            return baseHeight + (intervalCount * intervalHeight)
-        }
+        // calculate the height of the VStack content dynamically
+        // based on the number of intervals or other content you have.
+        let baseHeight: CGFloat = 200 // Base height for picker and buttons
+        let intervalHeight: CGFloat = 50 // Approximate height per interval row
+        let intervalCount = CGFloat(presetViewModel.presets.count) // Number of intervals
+        return baseHeight + (intervalCount * intervalHeight)
+    }
 }
 
 struct onTheFlyView: View {
     var body: some View {
-        Text("Feeling spontaneous? Create intervals as you run using On-the-Fly mode.")
+        Text("Normal mode to easily track your running sessions without any interruptions.")
             .font(.callout)
             .multilineTextAlignment(.center)
             .padding(.horizontal, 30)
@@ -119,8 +114,12 @@ struct presetView: View {
     
     var body: some View {
         VStack {
-            // debug statement (timeInput is always nil??
-            Text("Want structure? Use Preset mode to follow your interval running plan.")
+            Text("NOTE: THIS MODE IS CURRENTLY DISABLED, AND WILL BE INCLUDED IN FUTURE UPDATES")
+                .font(.caption)
+                .multilineTextAlignment(.center)
+                .foregroundStyle(.red)
+                .padding(.bottom)
+            Text("Use Preset mode for a way to get notifications following your interval running plan.")
                 .font(.callout)
                 .multilineTextAlignment(.center)
                 .padding(.horizontal, 10)
